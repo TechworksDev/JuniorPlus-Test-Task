@@ -3,21 +3,27 @@ import IconNotes  from '@icons/IconNotes.vue'
 import IconEyeClosed  from '@icons/IconEyeClosed.vue'
 import { useRouter } from "vue-router"
 import IconEyeOpen  from '@icons/IconEyeOpen.vue'
-// import { Eye as IconEyeOpen, EyeOff as IconEyeClosed } from "lucide-vue-next"
+import IconMail  from '@icons/IconMail.vue'
+import IconExclamation  from '@icons/IconExclamation.vue'
+import IconPassword  from '@icons/IconPassword.vue'
 import {ref} from 'vue'
 
-const registerMode = ref(false);
+const registerMode = ref(true);
 const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 const showPassword = ref(true);
 const showPasswordConfirm = ref(true);
 const router = useRouter()
+const errorMessage = ref('');
 
 function handleSubmit () {
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!re.test(email.value)) {
-    alert('Email is not valid');
+    errorMessage.value = 'Некорректный email';
+    return;
+  } else if (registerMode.value === true && password.value !== passwordConfirm.value) {
+    errorMessage.value = 'Пароли не совпадают';
     return;
   }
   router.push("/home")
@@ -39,13 +45,15 @@ function handleSubmit () {
     </div>
     <div class="right-block">
       <div class="title">
-        <p><b>Войдите в приложение для доступа к своим заметкам</b></p>
+        <p><b>{{registerMode ? "Зарегистрируйтесь в приложении" : "Войдите в приложение"}} для доступа к своим заметкам</b></p>
       </div>
-      <form class="login-block" @submit.prevent="handleSubmit">
+      <form class="login-block" @submit.prevent="handleSubmit" novalidate>
         <div>
+          <IconMail :width="'26px'" :height="'28px'" :color="'#fff'"/>
           <input type="email" v-model="email" placeholder="Email">
         </div>
         <div>
+          <IconPassword :width="'28px'" :height="'28px'" :color="'#fff'"/>
           <input :type="showPassword ? 'password' : 'text'" v-model="password" placeholder="Пароль">
           <button class="eye" @click="showPassword = !showPassword" type="button" style="cursor: pointer;">
             <IconEyeOpen v-if="!showPassword" :width="'28px'" :height="'28px'" :color="'#fff'"/>
@@ -53,18 +61,23 @@ function handleSubmit () {
           </button>
         </div>
         <div v-if="registerMode">
+          <IconPassword :width="'28px'" :height="'28px'" :color="'#fff'"/>
           <input :type="showPasswordConfirm ? 'password' : 'text'" v-model="passwordConfirm" placeholder="Подтвердите пароль">
           <button class="eye" @click="showPasswordConfirm = !showPasswordConfirm" type="button" style="cursor: pointer;">
             <IconEyeOpen v-if="!showPasswordConfirm" :width="'28px'" :height="'28px'" :color="'#fff'"/>
             <IconEyeClosed v-else :width="'28px'" :height="'28px'" :color="'#fff'"/>
           </button>
         </div>
-        <button type="submit">{{registerMode ? 'Зарегистрироваться' : 'Войти'}}</button>
-        <div v-on:click="registerMode = !registerMode" style="cursor: pointer">
-          <span v-if="!registerMode">Нет аккаунта? <a style="color: #ffff80">Зарегистрируйтесь</a></span>
-          <span v-else>Есть аккаунт? <a style="color: #90ff90">Войдите</a></span>
-        </div>
+        <button type="submit" style="cursor: pointer;">{{registerMode ? 'Зарегистрироваться' : 'Войти'}}</button>
       </form>
+      <div v-on:click="registerMode = !registerMode">
+        <span v-if="!registerMode">Нет аккаунта? <a style="color: #ffff80; cursor:pointer">Зарегистрируйтесь</a></span>
+        <span v-else>Есть аккаунт? <a style="color: #90ff90; cursor:pointer">Войдите</a></span>
+      </div>
+      <div v-if="errorMessage" class="error-message">
+        <IconExclamation :width="'18px'" :height="'18px'" :color="'#ff6060'"/>
+        <span>{{errorMessage}}</span>
+      </div>
     </div>
   </main>
 </template>
@@ -72,6 +85,14 @@ function handleSubmit () {
 <style lang="scss">
   p{
     font-size: 20px;
+  }
+  .error-message{
+    gap: 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 0px;
+    color: #ff6060;
   }
   main{
     display: flex;
@@ -84,9 +105,20 @@ function handleSubmit () {
     gap: 20px;
   }
   .left-block{
-    width: 360px;
+    min-width: 300px;
+    max-width: 400px;
+    // background-color: #303030;
+    padding: 10px 30px 30px 30px;
+    border-radius: 8px;
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+  .right-block{
+    min-width: 300px;
+    max-width: 400px;
     background-color: #303030;
-    padding: 20px;
+    padding: 10px 30px 30px 30px;
     border-radius: 8px;
     @media screen and (max-width: 1100px) {
       display: none;
@@ -104,6 +136,7 @@ function handleSubmit () {
     flex-direction: column;
   }
   .login-block{
+    margin-bottom: 15px;
     display: flex;
     flex-direction: column;
     gap: 15px;

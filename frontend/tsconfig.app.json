@@ -10,6 +10,7 @@
       "@components/*": ["./src/components/*"],
       "@icons/*": ["./src/components/icons/*"],
       "@views/*": ["./src/views/*"],
+      "@styles/*": ["./src/styles/*"],
     }
   }
 }
