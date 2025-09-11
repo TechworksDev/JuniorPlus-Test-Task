@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'
+import 'dotenv/config'
+dotenv.config()
 import express from 'express'
 import cors from "cors"
 import bodyParser from "body-parser"
@@ -13,7 +16,7 @@ app.use(bodyParser.json())
 app.use(loggerMiddleware)
 
 app.use("/auth", authRoutes)
-app.use("/notes/", noteRouters)
+app.use("/notes", noteRouters)
 
 app.listen(port, () => {
   console.log(`NekoNotes server listening on ${port}`)

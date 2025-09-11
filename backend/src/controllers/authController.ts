@@ -2,9 +2,10 @@ import { Request, Response } from "express"
 import { pool } from "../database/db"
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt";
+import { AuthRequest } from "../middleware/authMiddleware";
 
 //* POST
-export async function registerUser(req: Request, res: Response) {
+async function registerUser(req: Request, res: Response) {
   try{
     const {email, password} = req.body
     if(!email ||  !password) {
@@ -30,14 +31,14 @@ export async function registerUser(req: Request, res: Response) {
       ...newUser.rows[0],
       token: generateToken(newUser.rows[0].id, email)
     }
-    res.status(201).send({message: "Пользователь успешно зарегистрирован", user})
+    res.status(201).send({user})
   } catch (err) {
     console.log(err)
     res.status(500).send({message: "Что-то пошло не так"})
   }
 }
 
-export async function loginUser(req: Request, res: Response) {
+async function loginUser(req: Request, res: Response) {
   try{
     const {email, password} = req.body
     if (!email || !password) {
@@ -45,7 +46,7 @@ export async function loginUser(req: Request, res: Response) {
     }
 
     const user = await pool.query(
-      "SELECT FROM users WHERE email = $1",
+      "SELECT * FROM users WHERE email = $1",
       [email]
     )
     if(user.rows.length === 0) {
@@ -60,10 +61,52 @@ export async function loginUser(req: Request, res: Response) {
         avatar: user.rows[0].avatar,
         token: generateToken(user.rows[0].id, email)
       }
-      res.status(200).send({message: "Пользователь успешно авторизован", user: userWithToken})
+      res.status(200).send({user: userWithToken})
     }
-
   } catch (err) {
-
+    console.log(err)
+    res.status(500).send({message: "Что-то пошло не так"})
   }
 }
+
+async function deleteUser(req: AuthRequest, res: Response) {
+  try{
+    const id = req.user?.userId
+    const user = await pool.query(
+      "SELECT * FROM users WHERE id = $1",
+      [id]
+    )
+    if(user.rows.length === 0) {
+      res.status(401).send({message: "Пользователь не найден"})
+    } else {
+      await pool.query(
+        "DELETE FROM users WHERE id = $1",
+        [id]
+      )
+      res.status(200).send({message: "Пользователь успешно удален"})
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({message: "Что-то пошло не так"})
+  }
+}
+
+async function updateProfile(req: AuthRequest, res: Response) {
+  try{
+    const {avatar} = req.body
+    await pool.query("UPDATE users SET avatar = $1 WHERE id = $2", [avatar, req.user?.userId])
+    res.status(200).send({message: "Профиль успешно обновлен"})
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({message: "Что-то пошло не так"})
+  }
+}
+
+const authController = {
+  registerUser,
+  loginUser,
+  deleteUser,
+  updateProfile
+}
+
+export default authController

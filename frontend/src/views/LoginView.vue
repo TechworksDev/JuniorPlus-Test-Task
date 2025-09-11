@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import IconNotes  from '@icons/IconNotes.vue'
 import IconEyeClosed  from '@icons/IconEyeClosed.vue'
-import { useRouter } from "vue-router"
 import IconEyeOpen  from '@icons/IconEyeOpen.vue'
 import IconMail  from '@icons/IconMail.vue'
 import IconExclamation  from '@icons/IconExclamation.vue'
 import IconPassword  from '@icons/IconPassword.vue'
 import {ref} from 'vue'
+import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'vue-router'
 
 const registerMode = ref(true);
 const email = ref('');
@@ -14,10 +15,11 @@ const password = ref('');
 const passwordConfirm = ref('');
 const showPassword = ref(true);
 const showPasswordConfirm = ref(true);
-const router = useRouter()
 const errorMessage = ref('');
+const userStore = useUserStore()
+const router = useRouter()
 
-function handleSubmit () {
+async function handleSubmit() {
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (!re.test(email.value)) {
     errorMessage.value = 'Некорректный email';
@@ -25,8 +27,16 @@ function handleSubmit () {
   } else if (registerMode.value === true && password.value !== passwordConfirm.value) {
     errorMessage.value = 'Пароли не совпадают';
     return;
+  } else if (password.value.length < 8) {
+    errorMessage.value = 'Пароль должен быть длинее 8 символов';
+    return;
   }
-  router.push("/home")
+
+  errorMessage.value = '';
+  const result = await userStore.auth(email.value, password.value, registerMode.value);
+  if('message' in result) errorMessage.value = result.message
+  else router.push('/home')
+  console.log(result)
 }
 
 </script>

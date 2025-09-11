@@ -2,11 +2,9 @@ import jwt from 'jsonwebtoken'
 import { NextFunction, Request, Response } from "express"
 import { verifyToken } from '../utils/jwt'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret'
-
 export interface AuthRequest extends Request {
   user?: {
-    id: number
+    userId: number
     email: string
   }
 }
@@ -17,7 +15,7 @@ export const authMiddleware = (req: AuthRequest , res: Response, next: NextFunct
 
   if (!token) return res.sendStatus(401).json({message: "Not authorized!"});
   try{
-    const decoded = verifyToken(token) as {id: number, email: string}
+    const decoded = verifyToken(token) as {userId: number, email: string}
     req.user = decoded;
     next()
   } catch (err) {
