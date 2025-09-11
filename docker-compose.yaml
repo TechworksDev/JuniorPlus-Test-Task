@@ -16,6 +16,8 @@ services:
     build: ./backend
     container_name: backend_service
     restart: always
+    env_file:
+      - ./backend/.env
     depends_on:
       - db
     environment:

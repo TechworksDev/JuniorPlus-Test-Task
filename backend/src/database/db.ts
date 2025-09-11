@@ -1,11 +1,7 @@
 import {Pool} from 'pg'
 
-const pool = new Pool({
-  user: 'user',
-  host: 'localhost',
-  database: 'techworks_notes_db',
-  password: 'password',
-  port: 5432,
-})
+console.log("CONNECTING TO ", process.env.DATABASE_URL)
 
-module.exports = pool
+export const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+})
