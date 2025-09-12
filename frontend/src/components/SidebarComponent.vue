@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/userStore';
-import { useNoteStore } from '@/stores/noteStore';
-import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import { useNoteStore } from '@/stores/noteStore'
+import { ref } from 'vue'
 import IconNotes from '@/assets/icons/IconNotes.vue'
 import IconExclamation from '@/assets/icons/IconExclamation.vue'
 import IconLogout from '@/assets/icons/IconLogout2.vue'
-import IconAdd from '@/assets/icons/IconAdd.vue';
-import IconClose from '@/assets/icons/IconClose.vue';
-import IconCat from '@/assets/icons/IconCat.vue';
-import IconSwagger from '@/assets/icons/IconSwagger.vue';
+import IconAdd from '@/assets/icons/IconAdd.vue'
+import IconClose from '@/assets/icons/IconClose.vue'
+import IconCat from '@/assets/icons/IconCat.vue'
+import IconSwagger from '@/assets/icons/IconSwagger.vue'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 const userData = useUserStore().user
 const userStore = useUserStore()
 const noteStore = useNoteStore()
@@ -25,7 +25,7 @@ const noteData = ref({
 
 function Logout() {
   userStore.logout()
-  router.replace("/");
+  router.replace("/")
 }
 
 function openModal() {

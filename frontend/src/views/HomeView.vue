@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ModalNoteCard from '@/components/ModalNoteCard.vue';
-import NoteCard from '@/components/NoteCard.vue';
-import IconClose from '@/assets/icons/IconClose.vue';
-import IconTrash from '@/assets/icons/IconTrash.vue';
-import { useNoteStore, type Note } from '@/stores/noteStore';
-import { ref } from 'vue';
-import IconSave from '@/assets/icons/IconSave.vue';
+import ModalNoteCard from '@/components/ModalNoteCard.vue'
+import NoteCard from '@/components/NoteCard.vue'
+import IconClose from '@/assets/icons/IconClose.vue'
+import IconTrash from '@/assets/icons/IconTrash.vue'
+import { useNoteStore, type Note } from '@/stores/noteStore'
+import { ref } from 'vue'
+import IconSave from '@/assets/icons/IconSave.vue'
 
 const noteStore = useNoteStore()
 const showModal = ref(false)

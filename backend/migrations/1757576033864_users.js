@@ -1,4 +1,4 @@
-exports.shorthands = undefined;
+exports.shorthands = undefined
 
 exports.up = (pgm) => {
   pgm.createTable("users", {
@@ -7,9 +7,9 @@ exports.up = (pgm) => {
     password: { type: "varchar(255)", notNull: true },
     avatar: { type: "varchar(255)", notNull: false },
     created_at: { type: "timestamp", default: pgm.func("current_timestamp") },
-  });
-};
+  })
+}
 
 exports.down = (pgm) => {
-  pgm.dropTable("users");
-};
+  pgm.dropTable("users")
+}

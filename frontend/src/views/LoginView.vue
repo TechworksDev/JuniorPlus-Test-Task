@@ -9,31 +9,31 @@ import { ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 
-const registerMode = ref(true);
-const email = ref('');
-const password = ref('');
-const passwordConfirm = ref('');
-const showPassword = ref(true);
-const showPasswordConfirm = ref(true);
-const errorMessage = ref('');
+const registerMode = ref(true)
+const email = ref('')
+const password = ref('')
+const passwordConfirm = ref('')
+const showPassword = ref(true)
+const showPasswordConfirm = ref(true)
+const errorMessage = ref('')
 const userStore = useUserStore()
 const router = useRouter()
 
 async function handleSubmit() {
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (!re.test(email.value)) {
-    errorMessage.value = 'Некорректный email';
-    return;
+  const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  if (!regex.test(email.value)) {
+    errorMessage.value = 'Некорректный email'
+    return
   } else if (registerMode.value === true && password.value !== passwordConfirm.value) {
-    errorMessage.value = 'Пароли не совпадают';
-    return;
+    errorMessage.value = 'Пароли не совпадают'
+    return
   } else if (password.value.length < 8) {
-    errorMessage.value = 'Пароль должен быть длинее 8 символов';
-    return;
+    errorMessage.value = 'Пароль должен быть длинее 8 символов'
+    return
   }
 
-  errorMessage.value = '';
-  const result = await userStore.auth(email.value, password.value, registerMode.value);
+  errorMessage.value = ''
+  const result = await userStore.auth(email.value, password.value, registerMode.value)
   if ('message' in result) errorMessage.value = result.message
   else router.push('/home')
 }

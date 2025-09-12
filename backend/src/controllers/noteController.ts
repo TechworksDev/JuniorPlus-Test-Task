@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express"
 import { pool } from "../database/db"
-import { AuthRequest } from "../middleware/authMiddleware";
+import { AuthRequest } from "../middleware/authMiddleware"
 
 async function getNotes(req: AuthRequest, res: Response, next: NextFunction) {
   try {

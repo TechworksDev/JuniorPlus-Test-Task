@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express"
 
 export function errorMiddleware(err: any, req: Request, res: Response, next: NextFunction) {
   console.error("Ошибка при исполнении запроса:", err)
@@ -9,5 +9,5 @@ export function errorMiddleware(err: any, req: Request, res: Response, next: Nex
   res.status(statusCode).json({
     success: false,
     message,
-  });
+  })
 }

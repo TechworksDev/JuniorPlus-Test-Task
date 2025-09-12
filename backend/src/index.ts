@@ -21,7 +21,7 @@ setupSwagger(app)
 app.use("/auth", authRoutes)
 app.use("/notes", noteRouters)
 
-app.use(errorMiddleware);
+app.use(errorMiddleware)
 
 app.listen(port, () => {
   console.log(`NekoNotes server listening on ${port}, swagger docs: http://localhost:3000/swagger`)
