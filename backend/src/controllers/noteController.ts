@@ -1,17 +1,17 @@
-import { Response } from "express"
+import { NextFunction, Response } from "express"
 import { pool } from "../database/db"
 import { AuthRequest } from "../middleware/authMiddleware";
 
-async function getNotes(req: AuthRequest, res: Response) {
+async function getNotes(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const notes = await pool.query("SELECT * FROM notes WHERE owner_id = $1", [req.user?.userId])
     res.status(200).send({ notes: notes.rows })
   } catch (err) {
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 
-async function addNote(req: AuthRequest, res: Response) {
+async function addNote(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const { title, text } = req.body
     if (!title || !text) {
@@ -25,27 +25,27 @@ async function addNote(req: AuthRequest, res: Response) {
     }
   } catch (err) {
     console.log(err)
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 
-async function removeNote(req: AuthRequest, res: Response) {
+async function removeNote(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const { id } = req.body
     await pool.query("DELETE FROM notes WHERE id = $1 AND owner_id = $2", [id, req.user?.userId])
     res.status(200).send({ message: "Заметка успешно удалена" })
   } catch (err) {
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 
-async function updateNote(req: AuthRequest, res: Response) {
+async function updateNote(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const { id, title, text } = req.body
     await pool.query("UPDATE notes SET title = $1, text = $2 WHERE id = $3 AND owner_id = $4", [title, text, id, req.user?.userId])
     res.status(200).send({ message: "Заметка успешно обновлена" })
   } catch (err) {
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 

@@ -6,9 +6,6 @@ import IconTrash from '@/assets/icons/IconTrash.vue';
 import { useNoteStore, type Note } from '@/stores/noteStore';
 import { ref } from 'vue';
 import IconSave from '@/assets/icons/IconSave.vue';
-import IconExclamation from '@/assets/icons/IconExclamation.vue';
-import IconNotes from '@/assets/icons/IconNotes.vue';
-import IconCat from '@/assets/icons/IconCat.vue';
 
 const noteStore = useNoteStore()
 const showModal = ref(false)

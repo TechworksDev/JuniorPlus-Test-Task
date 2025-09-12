@@ -1,10 +1,10 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { pool } from "../database/db"
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt";
 import { AuthRequest } from "../middleware/authMiddleware";
 
-async function registerUser(req: Request, res: Response) {
+async function registerUser(req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password } = req.body
     if (!email || !password) {
@@ -35,12 +35,11 @@ async function registerUser(req: Request, res: Response) {
     }
     res.status(201).send(user)
   } catch (err) {
-    console.log(err)
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 
-async function loginUser(req: Request, res: Response) {
+async function loginUser(req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password } = req.body
     if (!email || !password) {
@@ -66,12 +65,11 @@ async function loginUser(req: Request, res: Response) {
       res.status(200).send(userWithToken)
     }
   } catch (err) {
-    console.log(err)
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err)
   }
 }
 
-async function deleteUser(req: AuthRequest, res: Response) {
+async function deleteUser(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const id = req.user?.userId
     const user = await pool.query(
@@ -88,19 +86,17 @@ async function deleteUser(req: AuthRequest, res: Response) {
       res.status(200).send({ message: "Пользователь успешно удален" })
     }
   } catch (err) {
-    console.log(err)
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err); // передаём в errorHandler
   }
 }
 
-async function updateProfile(req: AuthRequest, res: Response) {
+async function updateProfile(req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const { avatar } = req.body
     await pool.query("UPDATE users SET avatar = $1 WHERE id = $2", [avatar, req.user?.userId])
     res.status(200).send({ message: "Профиль успешно обновлен" })
   } catch (err) {
-    console.log(err)
-    res.status(500).send({ message: "Что-то пошло не так" })
+    next(err); // передаём в errorHandler
   }
 }
 
