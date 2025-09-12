@@ -10,3 +10,26 @@ body{
 body *{
   transition: 200ms;
 }
+
+html, body {
+  scrollbar-width: thin;                  /* Firefox */
+  scrollbar-color: #609060 #2a2a2a;       /* thumb track */
+}
+
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #609060;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #32cc3290;
+}

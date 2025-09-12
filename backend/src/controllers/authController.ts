@@ -29,9 +29,10 @@ async function registerUser(req: Request, res: Response) {
     )
     const user = {
       ...newUser.rows[0],
+      avatar: "https://cdn-icons-png.flaticon.com/256/8801/8801434.png",
       token: generateToken(newUser.rows[0].id, email)
     }
-    res.status(201).send({user})
+    res.status(201).send({...user})
   } catch (err) {
     console.log(err)
     res.status(500).send({message: "Что-то пошло не так"})
@@ -58,10 +59,10 @@ async function loginUser(req: Request, res: Response) {
         id: user.rows[0].id,
         email: user.rows[0].email,
         created_at: user.rows[0].created_at,
-        avatar: user.rows[0].avatar,
+        avatar: user.rows[0].avatar || "https://cdn-icons-png.flaticon.com/256/8801/8801434.png",
         token: generateToken(user.rows[0].id, email)
       }
-      res.status(200).send({user: userWithToken})
+      res.status(200).send({...userWithToken})
     }
   } catch (err) {
     console.log(err)

@@ -21,7 +21,7 @@ async function addNote(req: AuthRequest, res: Response) {
         "INSERT INTO notes (owner_id, title, text) VALUES ($1, $2, $3) RETURNING id, owner_id, title, text, created_at",
         [req.user?.userId, title, text]
       )
-      res.status(201).send({note: newNote.rows[0]})
+      res.status(201).send(newNote.rows[0])
     }
   } catch (err) {
     console.log(err)

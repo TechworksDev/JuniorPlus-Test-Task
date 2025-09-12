@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import IconNotes  from '@icons/IconNotes.vue'
-import IconHome  from '@icons/IconHome.vue'
-import IconLogout  from '@/components/icons/IconLogout2.vue'
 import { useRoute, useRouter } from 'vue-router';
-import IconProfile from '../icons/IconProfile.vue';
-import IconAdd from '../icons/IconAdd.vue';
+import IconNotes  from '@/assets/icons/IconNotes.vue'
+import IconLogout  from '@/assets/icons/IconLogout2.vue'
+import IconAdd from '@/assets/icons/IconAdd.vue';
+import IconClose from '@/assets/icons/IconClose.vue';
+import IconCat from '@/assets/icons/IconCat.vue';
+import { useUserStore } from '@/stores/userStore';
+import { useNoteStore } from '@/stores/noteStore';
 import { ref } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
+const userData = useUserStore().user
+const noteStore = useNoteStore()
+const errorMessage = ref('')
 const showModal = ref(false)
 const noteData = ref({
   title: '',
@@ -24,41 +29,54 @@ function openModal(){
   showModal.value = true        // показать модалку
   router.push('/home')          // перейти на страницу
 }
+
+function createNoteHandler(){
+  if(noteData.value.title.length > 255){
+    errorMessage.value = 'Название заметки должно быть менее 255 символов'
+    return
+  }
+  showModal.value = false
+  noteStore.createNote(noteData.value.title, noteData.value.text)
+  noteData.value.title = ''
+  noteData.value.text = ''
+}
 </script>
 
 <template>
   <div class="sidebar">
     <div style="margin-bottom: 20px">
-      <IconNotes :width="'28px'" :height="'28px'" :color="'#fff'"/>
+      <IconCat :width="'28px'" :height="'28px'" :color="'#90ff90'"/>
     </div>
     <hr/>
     <div class="menu">
       <div class="upper-menu">
-        <button class="add-note" @click="openModal"><IconAdd :width="'28px'" :height="'28px'" :color="'#ffffff'"/></button>
-        <RouterLink to="/home"><IconHome :width="'28px'" :height="'28px'" :color="route.name == 'HomePage' ? '#50ff50' : '#fff'"/></RouterLink>
+        <button class="add-note" @click="openModal"><IconAdd :width="'28px'" :height="'28px'" :color="showModal ? '#90ff90' : '#fff'"/></button>
+        <RouterLink to="/home"><IconNotes :width="'28px'" :height="'28px'" :color="route.name == 'HomePage' && !showModal ? '#90ff90' : '#fff'"/></RouterLink>
       </div>
       <div class="bottom-menu">
-        <RouterLink to="/profile"><IconProfile :width="'28px'" :height="'28px'" :color="route.name == 'ProfilePage' ? '#50ff50' : '#fff'"/></RouterLink>
+        <RouterLink to="/profile"><img :src="userData?.avatar" width="28px"/></RouterLink>
         <button @click="Logout"><IconLogout :width="'28px'" :height="'28px'" :color="'#ff9090'"/></button>
       </div>
     </div>
   </div>
-  <Modal v-if="showModal" @close="showModal = false" class="modal">
+
+  <div v-if="showModal" @close="showModal = false" class="modal">
     <div class="modalbg" @click="showModal = false">
       <div class="modal-window" @click="e => e.stopPropagation()">
         <span class="modal-title"><b>Создайте заметку</b></span>
+        <span v-if="errorMessage" class="error-message"><IconExclamation :width="'18px'" :height="'18px'" :color="'#ff6060'"/><span>{{errorMessage}}</span></span>
         <div class="noteName">
           <IconNotes :width="'22px'" :height="'22px'" :color="'#fff'"/>
-          <input placeholder="Введите название заметки" v-model="noteData.title"/>
+          <input placeholder="Название заметки не более 255 символов" v-model="noteData.title"/>
         </div>
         <textarea placeholder="Введите текст заметки" style="resize: none;" v-model="noteData.text"></textarea>
         <div class="buttons">
-          <button @click="showModal = false">Отменить</button>
-          <button @click="showModal = false" class="create"><IconAdd :width="'16px'" :height="'16px'" :color="'#fff'"/>Создать</button>
+          <button @click="showModal = false"><IconClose :width="'16px'" :height="'16px'" :color="'#fff'"/>Отменить</button>
+          <button @click="createNoteHandler" class="create"><IconAdd :width="'16px'" :height="'16px'" :color="'#fff'"/>Создать</button>
         </div>
       </div>
     </div>
-  </Modal>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -97,6 +115,7 @@ function openModal(){
     .buttons{
       display: flex;
       flex-direction: row;
+      gap: 10px;
       button{
         display: flex;
         align-items: center;
@@ -148,8 +167,6 @@ function openModal(){
     border-radius: 8px;
     border: none;
     outline: none;
-    background-color: #90ff9050;
-    color: #90ff90;
     cursor: pointer;
   }
   .sidebar{
@@ -187,6 +204,9 @@ function openModal(){
       display: flex;
       gap: 20px;
       flex-direction: column;
+      img{
+        border-radius: 12px;
+      }
     }
   }
 </style>

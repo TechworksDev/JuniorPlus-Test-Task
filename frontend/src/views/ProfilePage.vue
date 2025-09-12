@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/userStore'
-import IconLogout2 from '../components/icons/IconLogout2.vue'
-import { ref, toRaw } from 'vue'
-import IconTrash from '@/components/icons/IconTrash.vue'
+import IconLogout2 from '@/assets/icons/IconLogout2.vue'
+import { ref } from 'vue'
+import IconTrash from '@/assets/icons/IconTrash.vue'
+import router from '@/router'
+import { useNoteStore } from '@/stores/noteStore'
+import IconSave from '@/assets/icons/IconSave.vue'
 
 const showModal = ref(false)
 const userStore = useUserStore()
-const userData = toRaw(userStore?.user?.user!)  // User | null
-console.log(userData)
+const noteStore = useNoteStore()
 
+function deleteAccount(){
+  userStore.logout()
+  showModal.value = false
+  router.replace('/')
+  userStore.deleteAccount()
+}
+
+const date = new Date(userStore.user!.created_at!)
+const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDate()}.${date.getMonth()+1 > 10 ? '0' + date.getMonth()+1 : date.getMonth()+1}.${date.getFullYear()}`;
+const avatarUrl = ref('')
 </script>
 
 <template>
@@ -17,16 +29,27 @@ console.log(userData)
       <span class="title"><b>Ваш профиль</b></span>
       <div class="content">
         <img
-          :src="userData?.avatar"
+          :src="userStore.user?.avatar"
           width="120px"
         />
         <div class="info">
-          <span>Email: {{ userData?.email }}</span>
-          <span>Регистрация: {{ userData?.created_at }}</span>
-          <span>Замети: {{ userData?.created_at }}</span>
+          <span>Email: {{ userStore.user?.email }}</span>
+          <span>Регистрация: {{ formattedDate }}</span>
+          <span>Заметок: {{ noteStore.notes.length }}</span>
           <div class="buttons">
             <button><IconLogout2 :width="'16px'" :height="'16px'" :color="'#fff'"/>Выйти</button>
             <button style="background-color: #ff6060;" @click="showModal = true"><IconTrash :width="'16px'" :height="'16px'" :color="'#fff'"/>Удалить аккаунт</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <span class="title"><b>Изменить аватар</b></span>
+      <div class="content">
+        <div class="info">
+          <input v-model="avatarUrl" type="url" placeholder="Введите ссылку на изображение"/>
+          <div class="buttons">
+            <button @click="userStore.updateAccount(avatarUrl)"><IconSave :width="'16px'" :height="'16px'" :color="'#fff'"/>Сохранить</button>
           </div>
         </div>
       </div>
@@ -39,7 +62,7 @@ console.log(userData)
         <span class="modal-title"><b>Уверены что хотите удалить аккаунт?</b></span>
         <div class="buttons">
           <button @click="showModal = false">Отменить</button>
-          <button @click="showModal = false" class="create"><IconAdd :width="'16px'" :height="'16px'" :color="'#fff'"/>Создать</button>
+          <button @click="deleteAccount" class="create"><IconAdd :width="'16px'" :height="'16px'" :color="'#fff'"/>Удалить</button>
         </div>
       </div>
     </div>
@@ -163,14 +186,28 @@ console.log(userData)
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    input{
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: #282828;
+      color: #fff;
+      &:focus{
+        background-color: #343434;
+        color: #ffffff;
+      }
+    }
   }
   .container{
     display: flex;
     position: fixed;
     left: 70px;
+    flex-direction: column;
     top: 0px;
     right: 0px;
     padding: 10px;
+    gap: 10px;
   }
   .block{
     display: flex;

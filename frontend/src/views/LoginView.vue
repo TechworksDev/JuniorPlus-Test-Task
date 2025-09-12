@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import IconNotes  from '@icons/IconNotes.vue'
-import IconEyeClosed  from '@icons/IconEyeClosed.vue'
-import IconEyeOpen  from '@icons/IconEyeOpen.vue'
-import IconMail  from '@icons/IconMail.vue'
-import IconExclamation  from '@icons/IconExclamation.vue'
-import IconPassword  from '@icons/IconPassword.vue'
+import IconEyeClosed  from '@/assets/icons/IconEyeClosed.vue'
+import IconEyeOpen  from '@/assets/icons/IconEyeOpen.vue'
+import IconMail  from '@/assets/icons/IconMail.vue'
+import IconExclamation  from '@/assets/icons/IconExclamation.vue'
+import IconPassword  from '@/assets/icons/IconPassword.vue'
+import IconCat from '@/assets/icons/IconCat.vue'
 import {ref} from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
@@ -36,7 +36,6 @@ async function handleSubmit() {
   const result = await userStore.auth(email.value, password.value, registerMode.value);
   if('message' in result) errorMessage.value = result.message
   else router.push('/home')
-  console.log(result)
 }
 
 </script>
@@ -45,7 +44,7 @@ async function handleSubmit() {
   <main>
     <div class="left-block">
       <div class="title">
-        <IconNotes :width="'28px'" :height="'28px'" :color="'#fff'"/>
+        <IconCat :width="'28px'" :height="'28px'" :color="'#90ff90'"/>
         <p><b>Добро пожаловать в NekoNotes</b></p>
       </div>
       <div class="description">

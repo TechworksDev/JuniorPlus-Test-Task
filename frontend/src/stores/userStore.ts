@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { useNoteStore } from './noteStore'
 
 export type User = {
   id: number
@@ -21,7 +21,7 @@ export interface AuthError {
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: ref<User | null>(null),
+    user: null as User | null,
   }),
   actions: {
     async auth(email: string, password: string, register: boolean): Promise<User | AuthError> {
@@ -50,18 +50,38 @@ export const useUserStore = defineStore('user', {
     },
     async logout(){
       this.user = null
+      const noteStore = useNoteStore()
+      noteStore.notes = []
       localStorage.removeItem('user')
+      localStorage.removeItem('notes')
     },
     async deleteAccount(){
+      const data = localStorage.getItem('user')
+      if (!data) return
+      const user: User = JSON.parse(data)
+      console.log(user)
       await fetch('http://127.0.0.1:3000/auth/delete', {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${this?.user?.token}`
+          "Authorization": `Bearer ${user.token}`
         }
       })
-      this.user = null
-      localStorage.removeItem('user')
+    },
+    async updateAccount(avatar: string){
+      const data = localStorage.getItem('user')
+      if (!data) return
+      const user: User = JSON.parse(data)
+      await fetch('http://127.0.0.1:3000/auth/updateProfile', {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ avatar })
+      })
+      user.avatar = avatar
+      localStorage.setItem('user', JSON.stringify(user))
     },
     loadFromLocalStorage() {
       const user = localStorage.getItem('user')
