@@ -29,7 +29,7 @@ async function registerUser(req: Request, res: Response) {
     )
     const user = {
       ...newUser.rows[0],
-      avatar: "https://cdn-icons-png.flaticon.com/256/8801/8801434.png",
+      avatar: "https://i.pinimg.com/236x/68/31/12/68311248ba2f6e0ba94ff6da62eac9f6.jpg",
       token: generateToken(newUser.rows[0].id, email)
     }
     res.status(201).send({...user})
@@ -59,7 +59,7 @@ async function loginUser(req: Request, res: Response) {
         id: user.rows[0].id,
         email: user.rows[0].email,
         created_at: user.rows[0].created_at,
-        avatar: user.rows[0].avatar || "https://cdn-icons-png.flaticon.com/256/8801/8801434.png",
+        avatar: user.rows[0].avatar || "https://i.pinimg.com/236x/68/31/12/68311248ba2f6e0ba94ff6da62eac9f6.jpg",
         token: generateToken(user.rows[0].id, email)
       }
       res.status(200).send({...userWithToken})

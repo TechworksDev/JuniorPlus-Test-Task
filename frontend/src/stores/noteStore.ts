@@ -24,7 +24,7 @@ export const useNoteStore = defineStore('notes', {
   actions: {
     async getNotes() {
       const userStore = useUserStore()
-      try{
+      try {
         const url = 'http://127.0.0.1:3000/notes/getNotes'
         const response = await fetch(url, {
           method: 'GET',
@@ -33,7 +33,7 @@ export const useNoteStore = defineStore('notes', {
             "Authorization": `Bearer ${userStore.user?.token}`
           }
         }).then(response => response.json()).then(response => response.notes)
-        if(!response || response.length === 0) return []
+        if (!response || response.length === 0) return []
         console.log("RESPONSE:", response)
         this.notes = response.sort((a: Note, b: Note) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
         localStorage.setItem('notes', JSON.stringify(response))
@@ -45,7 +45,7 @@ export const useNoteStore = defineStore('notes', {
     },
     async createNote(title: string, text: string) {
       const userStore = useUserStore()
-      try{
+      try {
         const url = 'http://127.0.0.1:3000/notes/addNote'
         const response = await fetch(url, {
           method: 'POST',
@@ -55,7 +55,7 @@ export const useNoteStore = defineStore('notes', {
           },
           body: JSON.stringify({ title, text })
         }).then(response => response.json())
-        if(!response.id) return
+        if (!response.id) return
         this.notes?.push(response)
         localStorage.setItem('notes', JSON.stringify(this.notes))
         return response
@@ -66,7 +66,7 @@ export const useNoteStore = defineStore('notes', {
     },
     async deleteNote(id: number) {
       const userStore = useUserStore()
-      try{
+      try {
         const url = 'http://127.0.0.1:3000/notes/removeNote'
         const response = await fetch(url, {
           method: 'DELETE',
@@ -89,7 +89,7 @@ export const useNoteStore = defineStore('notes', {
     },
     async updateNote(id: number, title: string, text: string) {
       const userStore = useUserStore()
-      try{
+      try {
         const url = 'http://127.0.0.1:3000/notes/updateNote'
         const response = await fetch(url, {
           method: 'PUT',

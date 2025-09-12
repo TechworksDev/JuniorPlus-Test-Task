@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async auth(email: string, password: string, register: boolean): Promise<User | AuthError> {
-      try{
+      try {
         const url = register ? 'http://127.0.0.1:3000/auth/register' : 'http://127.0.0.1:3000/auth/login'
         const response = await fetch(url, {
           method: 'POST',
@@ -48,14 +48,14 @@ export const useUserStore = defineStore('user', {
         return { message: 'Неизвестная ошибка' }
       }
     },
-    async logout(){
+    async logout() {
       this.user = null
       const noteStore = useNoteStore()
       noteStore.notes = []
       localStorage.removeItem('user')
       localStorage.removeItem('notes')
     },
-    async deleteAccount(){
+    async deleteAccount() {
       const data = localStorage.getItem('user')
       if (!data) return
       const user: User = JSON.parse(data)
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user', {
         }
       })
     },
-    async updateAccount(avatar: string){
+    async updateAccount(avatar: string) {
       const data = localStorage.getItem('user')
       if (!data) return
       const user: User = JSON.parse(data)
