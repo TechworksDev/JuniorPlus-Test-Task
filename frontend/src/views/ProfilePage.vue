@@ -5,6 +5,7 @@ import { useNoteStore } from '@/stores/noteStore'
 import IconLogout2 from '@/assets/icons/IconLogout2.vue'
 import IconTrash from '@/assets/icons/IconTrash.vue'
 import IconSave from '@/assets/icons/IconSave.vue'
+import IconAdd from '@/assets/icons/IconAdd.vue'
 import router from '@/router'
 
 const showModal = ref(false)
