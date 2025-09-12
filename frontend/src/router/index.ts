@@ -23,7 +23,6 @@ const router = createRouter({
   ],
 })
 
-// Guard
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   const token = userStore.user?.token || localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')!).token

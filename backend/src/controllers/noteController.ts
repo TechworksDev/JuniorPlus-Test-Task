@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Response } from "express"
 import { pool } from "../database/db"
 import { AuthRequest } from "../middleware/authMiddleware";
 

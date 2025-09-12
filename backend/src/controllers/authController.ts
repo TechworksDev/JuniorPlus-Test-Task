@@ -4,14 +4,15 @@ import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt";
 import { AuthRequest } from "../middleware/authMiddleware";
 
-//* POST
 async function registerUser(req: Request, res: Response) {
   try{
     const {email, password} = req.body
     if(!email ||  !password) {
-      res.send({message: "Email и пароль обязательны"})
+      res.status(401).send({message: "Email и пароль обязательны"})
     } else if (password.length < 8) {
-      res.send({message: "Пароль должен быть длинее 8 символов"})
+      res.status(401).send({message: "Пароль должен быть длинее 8 символов"})
+    } else if (!email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+      res.status(401).send({message: "Некорректный email"})
     }
 
     const userExists = await pool.query(
@@ -32,7 +33,7 @@ async function registerUser(req: Request, res: Response) {
       avatar: "https://i.pinimg.com/236x/68/31/12/68311248ba2f6e0ba94ff6da62eac9f6.jpg",
       token: generateToken(newUser.rows[0].id, email)
     }
-    res.status(201).send({...user})
+    res.status(201).send(user)
   } catch (err) {
     console.log(err)
     res.status(500).send({message: "Что-то пошло не так"})
@@ -62,7 +63,7 @@ async function loginUser(req: Request, res: Response) {
         avatar: user.rows[0].avatar || "https://i.pinimg.com/236x/68/31/12/68311248ba2f6e0ba94ff6da62eac9f6.jpg",
         token: generateToken(user.rows[0].id, email)
       }
-      res.status(200).send({...userWithToken})
+      res.status(200).send(userWithToken)
     }
   } catch (err) {
     console.log(err)

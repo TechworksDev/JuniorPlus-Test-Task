@@ -122,7 +122,6 @@ main {
 .left-block {
   min-width: 300px;
   max-width: 400px;
-  // background-color: #303030;
   padding: 10px 30px 30px 30px;
   border-radius: 8px;
 
