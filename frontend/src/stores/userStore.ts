@@ -57,7 +57,10 @@ export const useUserStore = defineStore('user', {
     },
     async deleteAccount() {
       const data = localStorage.getItem('user')
-      if (!data) return
+      if (!data) {
+        console.log("No account to delete")
+        return
+      }
       const user: User = JSON.parse(data)
       console.log(user)
       await fetch('http://127.0.0.1:3000/auth/delete', {

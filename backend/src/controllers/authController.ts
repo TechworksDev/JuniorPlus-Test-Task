@@ -5,22 +5,22 @@ import { generateToken } from "../utils/jwt";
 import { AuthRequest } from "../middleware/authMiddleware";
 
 async function registerUser(req: Request, res: Response) {
-  try{
-    const {email, password} = req.body
-    if(!email ||  !password) {
-      res.status(401).send({message: "Email и пароль обязательны"})
+  try {
+    const { email, password } = req.body
+    if (!email || !password) {
+      res.status(401).send({ message: "Email и пароль обязательны" })
     } else if (password.length < 8) {
-      res.status(401).send({message: "Пароль должен быть длинее 8 символов"})
+      res.status(401).send({ message: "Пароль должен быть длинее 8 символов" })
     } else if (!email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-      res.status(401).send({message: "Некорректный email"})
+      res.status(401).send({ message: "Некорректный email" })
     }
 
     const userExists = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
     )
-    if(userExists.rows.length > 0) {
-      res.send({message: "Пользователь с таким email уже существует"})
+    if (userExists.rows.length > 0) {
+      res.send({ message: "Пользователь с таким email уже существует" })
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10)
@@ -36,25 +36,25 @@ async function registerUser(req: Request, res: Response) {
     res.status(201).send(user)
   } catch (err) {
     console.log(err)
-    res.status(500).send({message: "Что-то пошло не так"})
+    res.status(500).send({ message: "Что-то пошло не так" })
   }
 }
 
 async function loginUser(req: Request, res: Response) {
-  try{
-    const {email, password} = req.body
+  try {
+    const { email, password } = req.body
     if (!email || !password) {
-      res.status(401).send({message: "Email и пароль обязательны"})
+      res.status(401).send({ message: "Email и пароль обязательны" })
     }
 
     const user = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
     )
-    if(user.rows.length === 0) {
-      res.status(401).send({message: "Пользователь не найден"})
+    if (user.rows.length === 0) {
+      res.status(401).send({ message: "Пользователь не найден" })
     } else if (!bcrypt.compareSync(password, user.rows[0].password)) {
-      res.status(401).send({message: "Неверный пароль"})
+      res.status(401).send({ message: "Неверный пароль" })
     } else {
       const userWithToken = {
         id: user.rows[0].id,
@@ -67,40 +67,40 @@ async function loginUser(req: Request, res: Response) {
     }
   } catch (err) {
     console.log(err)
-    res.status(500).send({message: "Что-то пошло не так"})
+    res.status(500).send({ message: "Что-то пошло не так" })
   }
 }
 
 async function deleteUser(req: AuthRequest, res: Response) {
-  try{
+  try {
     const id = req.user?.userId
     const user = await pool.query(
       "SELECT * FROM users WHERE id = $1",
       [id]
     )
-    if(user.rows.length === 0) {
-      res.status(401).send({message: "Пользователь не найден"})
+    if (user.rows.length === 0) {
+      res.status(401).send({ message: "Пользователь не найден" })
     } else {
       await pool.query(
         "DELETE FROM users WHERE id = $1",
         [id]
       )
-      res.status(200).send({message: "Пользователь успешно удален"})
+      res.status(200).send({ message: "Пользователь успешно удален" })
     }
   } catch (err) {
     console.log(err)
-    res.status(500).send({message: "Что-то пошло не так"})
+    res.status(500).send({ message: "Что-то пошло не так" })
   }
 }
 
 async function updateProfile(req: AuthRequest, res: Response) {
-  try{
-    const {avatar} = req.body
+  try {
+    const { avatar } = req.body
     await pool.query("UPDATE users SET avatar = $1 WHERE id = $2", [avatar, req.user?.userId])
-    res.status(200).send({message: "Профиль успешно обновлен"})
+    res.status(200).send({ message: "Профиль успешно обновлен" })
   } catch (err) {
     console.log(err)
-    res.status(500).send({message: "Что-то пошло не так"})
+    res.status(500).send({ message: "Что-то пошло не так" })
   }
 }
 

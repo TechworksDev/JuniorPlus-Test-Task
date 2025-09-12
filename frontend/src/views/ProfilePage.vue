@@ -13,15 +13,20 @@ const noteStore = useNoteStore()
 const avatarUrl = ref('')
 
 function deleteAccount() {
-  userStore.logout()
-  showModal.value = false
-  router.replace('LoginPage')
   userStore.deleteAccount()
+  showModal.value = false
+  userStore.logout()
+  router.replace('LoginPage')
 }
 
 function updateAvatar() {
   userStore.user!.avatar = avatarUrl.value
   userStore.updateAccount(avatarUrl.value)
+}
+
+function logout() {
+  userStore.logout()
+  router.replace('LoginPage')
 }
 
 const date = new Date(userStore.user!.created_at!)
@@ -34,15 +39,15 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
       <span class="title"><b>Ваш профиль</b></span>
       <div class="content">
         <img :src="userStore.user?.avatar" width="120px" />
-        <div class="info">
+        <div class="info" style="min-width: 400px;">
           <span>Email: {{ userStore.user?.email }}</span>
           <span>Регистрация: {{ formattedDate }}</span>
           <span>Заметок: {{ noteStore.notes.length }}</span>
           <div class="buttons">
-            <button>
+            <button @click="logout">
               <IconLogout2 :width="'16px'" :height="'16px'" :color="'#fff'" />Выйти
             </button>
-            <button style="background-color: #ff6060;" @click="showModal = true">
+            <button style="background-color: #ff8080cc;" @click="showModal = true" class="removeAccount">
               <IconTrash :width="'16px'" :height="'16px'" :color="'#fff'" />Удалить аккаунт
             </button>
           </div>
@@ -52,7 +57,7 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
     <div class="block">
       <span class="title"><b>Изменить аватар</b></span>
       <div class="content">
-        <div class="info">
+        <div class="info" style="min-width: 300px;">
           <input v-model="avatarUrl" type="url" placeholder="Введите ссылку на изображение" />
           <div class="buttons">
             <button @click="updateAvatar">
@@ -65,7 +70,7 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
   </div>
 
   <Modal v-if="showModal" @close="showModal = false" class="modal">
-    <div class="modalbg" @click="showModal = false">
+    <div class="modalbg" @click="showModal = false;">
       <div class="modal-window" @click="e => e.stopPropagation()">
         <span class="modal-title"><b>Уверены что хотите удалить аккаунт?</b></span>
         <div class="buttons">
@@ -140,7 +145,7 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
       cursor: pointer;
 
       &:hover {
-        background: #404040b0;
+        background: #404040B0;
       }
 
       &.create {
@@ -207,6 +212,9 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
     font-size: 14px;
     border: none;
     cursor: pointer;
+    &:hover{
+      background: #323232;
+    }
   }
 }
 
@@ -215,17 +223,16 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-
   input {
     padding: 10px;
     border-radius: 8px;
     border: none;
     outline: none;
-    background-color: #282828;
+    background-color: #343434;
     color: #fff;
 
     &:focus {
-      background-color: #343434;
+      background-color: #404040;
       color: #ffffff;
     }
   }
@@ -250,6 +257,7 @@ const formattedDate = `${date.getDay() > 10 ? '0' + date.getDate() : date.getDat
   height: min-content;
   display: flex;
   flex-direction: column;
-  background: #353535;
+  backdrop-filter: blur(3px);
+  background-color: #30303050;
 }
 </style>

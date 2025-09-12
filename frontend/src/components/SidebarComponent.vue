@@ -4,14 +4,17 @@ import { useUserStore } from '@/stores/userStore';
 import { useNoteStore } from '@/stores/noteStore';
 import { ref } from 'vue';
 import IconNotes from '@/assets/icons/IconNotes.vue'
+import IconExclamation from '@/assets/icons/IconExclamation.vue'
 import IconLogout from '@/assets/icons/IconLogout2.vue'
 import IconAdd from '@/assets/icons/IconAdd.vue';
 import IconClose from '@/assets/icons/IconClose.vue';
 import IconCat from '@/assets/icons/IconCat.vue';
+import IconSwagger from '@/assets/icons/IconSwagger.vue';
 
 const route = useRoute();
 const router = useRouter();
 const userData = useUserStore().user
+const userStore = useUserStore()
 const noteStore = useNoteStore()
 const errorMessage = ref('')
 const showModal = ref(false)
@@ -21,7 +24,7 @@ const noteData = ref({
 })
 
 function Logout() {
-  localStorage.clear();
+  userStore.logout()
   router.replace("/");
 }
 
@@ -34,11 +37,15 @@ function createNoteHandler() {
   if (noteData.value.title.length > 255) {
     errorMessage.value = 'Название заметки должно быть менее 255 символов'
     return
+  } else if (noteData.value.title.length === 0 || noteData.value.text.length === 0) {
+    errorMessage.value = 'Заполните все поля'
+    return
   }
   showModal.value = false
   noteStore.createNote(noteData.value.title, noteData.value.text)
   noteData.value.title = ''
   noteData.value.text = ''
+  errorMessage.value = ''
 }
 </script>
 
@@ -47,19 +54,23 @@ function createNoteHandler() {
     <div style="margin-bottom: 20px">
       <IconCat :width="'28px'" :height="'28px'" :color="'#90ff90'" />
     </div>
-    <hr />
+    <div class="separator" style="width: 60%;"></div>
     <div class="menu">
       <div class="upper-menu">
         <button class="add-note" @click="openModal">
           <IconAdd :width="'28px'" :height="'28px'" :color="showModal ? '#90ff90' : '#fff'" />
         </button>
+      <div class="separator" style="width: 100%;"></div>
         <RouterLink to="/home">
           <IconNotes :width="'28px'" :height="'28px'"
             :color="route.name == 'HomePage' && !showModal ? '#90ff90' : '#fff'" />
         </RouterLink>
+        <a href="http://localhost:3000/swagger" target="_blank">
+          <IconSwagger :width="'28px'" :height="'28px'"/>
+        </a>
       </div>
       <div class="bottom-menu">
-        <RouterLink to="/profile"><img :src="userData?.avatar" width="28px" height="28px" style="object-fit: contain;"/></RouterLink>
+        <RouterLink to="/profile"><img :src="userData?.avatar" :style="route.name == 'ProfilePage' ? 'box-shadow: 0 0 10px 0px #90ff90' : ''" width="36px" height="36px" style="object-fit: contain;"/></RouterLink>
         <button @click="Logout">
           <IconLogout :width="'28px'" :height="'28px'" :color="'#ff9090'" />
         </button>
@@ -68,7 +79,7 @@ function createNoteHandler() {
   </div>
 
   <div v-if="showModal" @close="showModal = false" class="modal">
-    <div class="modalbg" @click="showModal = false">
+    <div class="modalbg" @dblclick="showModal = false; errorMessage = ''">
       <div class="modal-window" @click="e => e.stopPropagation()">
         <span class="modal-title"><b>Создайте заметку</b></span>
         <span v-if="errorMessage" class="error-message">
@@ -93,6 +104,13 @@ function createNoteHandler() {
 </template>
 
 <style scoped lang="scss">
+.separator{
+  width: 70%;
+  height: 4px;
+  margin: 0px 10px;
+  background-color: #ffffff40;
+}
+
 .noteName {
   display: flex;
   flex-direction: row;
@@ -107,8 +125,8 @@ function createNoteHandler() {
 .modal-window {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: #202020;
+  gap: 6px;
+  background: #202020bb;
   padding: 16px;
   min-width: 500px;
   border-radius: 14px;
@@ -175,6 +193,7 @@ function createNoteHandler() {
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(2px);
 }
 
 .modalbg {
@@ -206,7 +225,8 @@ function createNoteHandler() {
   width: 70px;
   top: 0px;
   bottom: 0px;
-  background-color: #303030;
+  background-color: #30303070;
+  backdrop-filter: blur(2px);
 }
 
 button {

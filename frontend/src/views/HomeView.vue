@@ -2,10 +2,13 @@
 import ModalNoteCard from '@/components/ModalNoteCard.vue';
 import NoteCard from '@/components/NoteCard.vue';
 import IconClose from '@/assets/icons/IconClose.vue';
-import IconNotes from '@/assets/icons/IconNotes.vue';
 import IconTrash from '@/assets/icons/IconTrash.vue';
 import { useNoteStore, type Note } from '@/stores/noteStore';
 import { ref } from 'vue';
+import IconSave from '@/assets/icons/IconSave.vue';
+import IconExclamation from '@/assets/icons/IconExclamation.vue';
+import IconNotes from '@/assets/icons/IconNotes.vue';
+import IconCat from '@/assets/icons/IconCat.vue';
 
 const noteStore = useNoteStore()
 const showModal = ref(false)
@@ -52,13 +55,17 @@ function saveNote() {
         :toggleModal="toggleModal" />
     </div>
   </div>
-  <div class="modal-container" v-if="showModal" @click="showModal = false">
-    <div class="modal-wrapper" @click="e => e.stopPropagation()">
+  <div class="modal-container" v-if="showModal" @dblclick="showModal = false">
+    <div class="modal-wrapper" @dblclick="e => e.stopPropagation()">
       <ModalNoteCard :title="selectedNote.title" :text="selectedNote.text" :id="selectedNote.id"
         :toggleModal="toggleModal" :toggleShowSaveButton="toggleShowSaveButton" />
       <div class="modal-buttons">
+        <span class="modal-span">
+          <IconCat :width="'16px'" :height="'16px'" :color="'#fff'" />
+          Вы можете редактировать заголовок и текст заметки! А так же выходить на двойной клик по пустому месту
+        </span>
         <button @click="saveNote" v-if="showSaveButton" class="modal-button-save">
-          <IconNotes :width="'16px'" :height="'16px'" :color="'#fff'" />Сохранить заметку
+          <IconSave :width="'16px'" :height="'16px'" :color="'#fff'" />Сохранить заметку
         </button>
         <button @click="deleteNote(selectedNote.id)" class="modal-button-delete">
           <IconTrash :width="'16px'" :height="'16px'" :color="'#fff'" />Удалить заметку
@@ -72,6 +79,17 @@ function saveNote() {
 </template>
 
 <style lang="scss">
+.modal-span{
+  width: 170px;
+  background-color: #30303070;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  color: #ffffff90;
+  &::selection{
+    background: transparent;
+  }
+}
 .modal-buttons {
   display: flex;
   flex-direction: column;
@@ -83,6 +101,7 @@ function saveNote() {
     align-items: center;
     height: 40px;
     color: #fff;
+    width: 190px;
     border: none;
     gap: 10px;
     background: #202020;
@@ -90,6 +109,7 @@ function saveNote() {
     cursor: pointer;
 
     &:hover {
+      width: 180px;
       background: #303030;
     }
   }
@@ -118,7 +138,8 @@ function saveNote() {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+  background: #00000070;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,9 +165,9 @@ function saveNote() {
 
 .wrapper {
   overflow-y: auto;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: flex-start;
-  padding: 10px 0px;
+  padding: 20px 10px;
   width: max-content;
   width: 100%;
   display: flex;

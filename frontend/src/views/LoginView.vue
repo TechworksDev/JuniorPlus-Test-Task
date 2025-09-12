@@ -133,12 +133,12 @@ main {
 .right-block {
   min-width: 300px;
   max-width: 400px;
-  background-color: #303030;
+  background-color: #30303060;
   padding: 10px 30px 30px 30px;
   border-radius: 8px;
-
-  @media screen and (max-width: 1100px) {
-    display: none;
+  backdrop-filter: blur(3px);
+  &:hover{
+    box-shadow: 0px 0px 10px 0px #aaffaa50;
   }
 }
 
@@ -182,11 +182,11 @@ main {
     border-radius: 8px;
     border: none;
     outline: none;
-    background-color: #282828;
+    background-color: #343434;
     color: #fff;
 
     &:focus {
-      background-color: #343434;
+      background-color: #404040;
       color: #ffffff;
     }
   }
@@ -195,8 +195,12 @@ main {
     padding: 10px;
     border-radius: 8px;
     border: none;
-    background-color: #282828;
+    background-color: #343434;
     color: #fff;
+    &:hover {
+      background-color: #404040;
+      color: #ffffff;
+    }
   }
 }
 

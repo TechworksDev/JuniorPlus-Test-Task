@@ -24,8 +24,9 @@ const props = defineProps<Props>()
 .note-wrapper {
   width: 280px;
   height: 226px;
-  background: #303030;
-  border-radius: 6px;
+  background: #30303090;
+  backdrop-filter: blur(3px);
+  border-radius: 12px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -33,16 +34,12 @@ const props = defineProps<Props>()
   color: #ffffff;
   overflow: hidden;
   font-family: monospace;
-  clip-path: polygon(0 0,
-      calc(100% - 30px) 0,
-      100% 35px,
-      100% 100%,
-      0 100%);
   cursor: pointer;
 
   &:hover {
-    background: #424242;
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
+    background: #42424290;
+    box-shadow: 0px 0px 10px 2px #ccffcc50;
+    backdrop-filter: blur(1px);
     transform: scale(1.05);
   }
 }
@@ -70,11 +67,6 @@ const props = defineProps<Props>()
   height: 22px;
   gap: 6px;
   display: flex;
-  clip-path: polygon(0 0,
-      calc(100% - 40px) 0,
-      100% 40px,
-      100% 100%,
-      0 100%);
 }
 
 .title {

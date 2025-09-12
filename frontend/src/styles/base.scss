@@ -1,7 +1,7 @@
 body {
-  background-color: #202020;
+  // background-color: #202020;
+  background-image: url(../assets/bg.png);
   color: #ffffff;
-  font-family: monospace;
   font-size: 16px;
   margin: 0px;
   padding: 0px;
@@ -9,6 +9,7 @@ body {
 
 body * {
   transition: 200ms;
+  font-family: monospace;
 }
 
 html,

@@ -37,7 +37,9 @@ watch(
       <IconNotes :width="'20px'" :height="'20px'" :color="'#fff'" />
       <input class="title" v-model="editedNote.title" />
     </div>
-    <textarea class="text" v-model="editedNote.text" style="resize: none;"></textarea>
+    <div class="text-wrapper">
+      <textarea class="text" v-model="editedNote.text" style="resize: none;"></textarea>
+    </div>
   </div>
 </template>
 
@@ -46,24 +48,20 @@ watch(
   width: 400px;
   height: min-content;
   min-height: 400px;
-  background: #303030;
-  border-radius: 12px;
-  overflow: hidden;
+  gap: 10px;
+  border-radius: 16px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   font-family: monospace;
-  clip-path: polygon(0 0,
-      calc(100% - 30px) 0,
-      100% 35px,
-      100% 100%,
-      0 100%);
   cursor: pointer;
 
   &:hover {
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
-    transform: scale(1.03);
+    transform: scale(1.02);
+    .text-wrapper, .title-wrapper{
+      box-shadow: 0px 0px 10px 0px #ccffcc30;
+    }
   }
 
   input,
@@ -88,25 +86,29 @@ watch(
   max-width: 380px;
   word-wrap: break-word;
   overflow: hidden;
-  text-overflow: ellipsis;
   font-size: 15px;
+  height: 100%;
   width: 100%;
 }
 
+.text-wrapper {
+  background: #30303090 !important;
+  backdrop-filter: blur(1px);
+  border-radius: 10px;
+  width: 400px;
+  height: 400px;
+}
+
 .title-wrapper {
+  border-radius: 10px;
   background: #90ff9060;
   flex-direction: row;
   align-items: center;
-  width: 400px;
+  width: 390px;
   padding: 6px;
   height: 22px;
   gap: 0px;
   display: flex;
-  clip-path: polygon(0 0,
-      calc(100% - 40px) 0,
-      100% 40px,
-      100% 100%,
-      0 100%);
 }
 
 .title {
