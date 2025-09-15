@@ -1,0 +1,51 @@
+.note_list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.note_card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  background: #fff;
+}
+
+.note_title {
+  font-weight: 600;
+}
+
+.note_text {
+  white-space: pre-wrap;
+  margin-top: 4px;
+}
+
+.note_date {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.note_delete {
+  border: none;
+  background: red;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  height: 40px;
+}
+
+.note_delete:hover {
+  background: red;
+}
+
+.error {
+  color: red;
+}

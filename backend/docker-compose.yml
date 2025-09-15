@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: notes
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
