@@ -1,0 +1,306 @@
+[2025-09-20 17:56:10] [32minfo[39m: 🚀 Server running on http://localhost:4000
+[2025-09-20 17:56:23] [32minfo[39m: Server running on http://localhost:4000
+[2025-09-20 21:06:54] [32minfo[39m: Fetched 1 notes
+[2025-09-20 21:08:03] [32minfo[39m: Created note: 607f6add-8c25-44ac-8022-33091a789543
+[2025-09-20 21:08:11] [32minfo[39m: Fetched 2 notes
+[2025-09-20 21:08:46] [32minfo[39m: Fetched 1 notes
+[2025-09-20 21:08:53] [32minfo[39m: Created note: c7da1d48-a740-4b17-85d7-f5ce5eba4351
+[2025-09-20 21:08:57] [32minfo[39m: Fetched 2 notes
+[2025-09-20 21:09:14] [32minfo[39m: Fetched 1 notes
+[2025-09-20 21:09:49] [32minfo[39m: Created note: 7e0d63c7-8d68-4712-8a89-268939d73bd9
+[2025-09-20 21:09:53] [32minfo[39m: Fetched 2 notes
+[2025-09-20 21:10:04] [32minfo[39m: Deleted note: 7e0d63c7-8d68-4712-8a89-268939d73bd9
+[2025-09-20 21:10:16] [32minfo[39m: Fetched 1 notes
+[2025-09-22 01:55:37] [32minfo[39m: [GET] /api/notes/
+[2025-09-22 01:55:37] [32minfo[39m: Fetched 1 notes
+[2025-09-22 01:56:05] [32minfo[39m: [GET] /api/swagger/index.html
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/swagger-ui.css
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/swagger-ui-bundle.js
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/swagger-ui-standalone-preset.js
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/swagger-ui-init.js
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/favicon-32x32.png
+[2025-09-22 01:56:50] [32minfo[39m: [GET] /api-docs/favicon-32x32.png
+[2025-09-22 01:56:59] [32minfo[39m: [GET] /api/notes
+[2025-09-22 01:57:00] [32minfo[39m: Fetched 1 notes
+[2025-09-22 01:58:00] [32minfo[39m: [POST] /api/notes
+[2025-09-22 01:58:00] [32minfo[39m: Created note: e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 01:58:10] [32minfo[39m: [GET] /api/notes
+[2025-09-22 01:58:10] [32minfo[39m: Fetched 2 notes
+[2025-09-22 01:58:36] [32minfo[39m: [POST] /api/notes
+[2025-09-22 01:58:36] [31merror[39m: [POST] /api/notes - Invalid value, Content is required
+[2025-09-22 01:58:53] [32minfo[39m: [GET] /api/notes/%D0%B2%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2
+[2025-09-22 01:58:53] [31merror[39m: [GET] /api/notes/%D0%B2%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2 - Note not found
+[2025-09-22 01:59:12] [32minfo[39m: [DELETE] /api/notes/%D1%84%D1%8B%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2
+[2025-09-22 01:59:12] [31merror[39m: [DELETE] /api/notes/%D1%84%D1%8B%D1%84%D1%8B%D0%B2%D1%84%D1%8B%D0%B2 - 
+Invalid `prisma.note.delete()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend /src/repository/repo.ts:17:30
+
+  14 },
+  15 
+  16 async delete(id: string): Promise<Note> {
+→ 17   return prisma.note.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/swagger-ui-standalone-preset.js
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/swagger-ui-init.js
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/swagger-ui.css
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/swagger-ui-bundle.js
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/favicon-32x32.png
+[2025-09-22 02:10:56] [32minfo[39m: [GET] /api-docs/favicon-32x32.png
+[2025-09-22 02:11:01] [32minfo[39m: [GET] /api/notes
+[2025-09-22 02:11:01] [32minfo[39m: Fetched 2 notes
+[2025-09-22 02:11:14] [32minfo[39m: [DELETE] /api/notes/fsdfsfs
+[2025-09-22 02:11:14] [31merror[39m: [DELETE] /api/notes/fsdfsfs - Note with id=fsdfsfs not found
+[2025-09-22 02:11:24] [32minfo[39m: [GET] /api/notes/fsdfsdf
+[2025-09-22 02:11:24] [31merror[39m: [GET] /api/notes/fsdfsdf - Note not found
+[2025-09-22 02:11:36] [32minfo[39m: [PUT] /api/notes/sdfsdfs
+[2025-09-22 02:11:36] [31merror[39m: [PUT] /api/notes/sdfsdfs - Note with id=sdfsdfs not found
+[2025-09-22 02:11:54] [32minfo[39m: [GET] /api/notes/e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:11:54] [32minfo[39m: Fetched note: e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:12:14] [32minfo[39m: [PUT] /api/notes/e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:12:14] [32minfo[39m: Updated note: e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:12:19] [32minfo[39m: [GET] /api/notes
+[2025-09-22 02:12:19] [32minfo[39m: Fetched 2 notes
+[2025-09-22 02:12:28] [32minfo[39m: [DELETE] /api/notes/e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:12:28] [32minfo[39m: Deleted note: e907da06-4991-4264-a7f3-69f10465b93a
+[2025-09-22 02:12:31] [32minfo[39m: [GET] /api/notes
+[2025-09-22 02:12:31] [32minfo[39m: Fetched 1 notes
+[2025-09-22 17:42:07] [32minfo[39m: [POST] /api/notes
+[2025-09-22 17:42:07] [32minfo[39m: Created note: ab4382cd-8e1a-4c9b-b4b9-5904836b8cf7
+[2025-09-22 17:42:07] [32minfo[39m: [GET] /api/notes
+[2025-09-22 17:42:07] [32minfo[39m: Fetched 2 notes
+[2025-09-22 17:42:09] [32minfo[39m: [GET] /api/notes
+[2025-09-22 17:42:09] [32minfo[39m: Fetched 2 notes
+[2025-09-22 17:42:13] [32minfo[39m: [POST] /api/notes
+[2025-09-22 17:42:13] [32minfo[39m: Created note: 3317916d-a8bb-4cc3-bbe3-529c84566936
+[2025-09-22 17:42:13] [32minfo[39m: [GET] /api/notes
+[2025-09-22 17:42:13] [32minfo[39m: Fetched 3 notes
+[2025-09-22 17:42:15] [32minfo[39m: [DELETE] /api/notes/undefined
+[2025-09-22 17:42:15] [31merror[39m: [DELETE] /api/notes/undefined - Note with id=undefined not found
+[2025-09-22 18:29:55] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:29:55] [32minfo[39m: Fetched 3 notes
+[2025-09-22 18:29:55] [32minfo[39m: [GET] /favicon.ico
+[2025-09-22 18:30:58] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:30:58] [32minfo[39m: Fetched 3 notes
+[2025-09-22 18:31:02] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:31:02] [32minfo[39m: Fetched 3 notes
+[2025-09-22 18:31:12] [32minfo[39m: [POST] /api/notes
+[2025-09-22 18:31:12] [32minfo[39m: Created note: c7daaadb-87d0-44dd-a48f-e4fbdbd56efe
+[2025-09-22 18:31:12] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:31:12] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:31:43] [32minfo[39m: [DELETE] /api/notes/undefined
+[2025-09-22 18:31:43] [31merror[39m: [DELETE] /api/notes/undefined - Note with id=undefined not found
+[2025-09-22 18:34:17] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:34:17] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:34:23] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:34:23] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:34:43] [32minfo[39m: [POST] /api/notes
+[2025-09-22 18:34:43] [32minfo[39m: Created note: 02495f57-6954-444c-b279-b8cc367ab58d
+[2025-09-22 18:34:43] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:34:43] [32minfo[39m: Fetched 5 notes
+[2025-09-22 18:34:49] [32minfo[39m: [DELETE] /api/notes/02495f57-6954-444c-b279-b8cc367ab58d
+[2025-09-22 18:34:49] [32minfo[39m: Deleted note: 02495f57-6954-444c-b279-b8cc367ab58d
+[2025-09-22 18:34:49] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:34:49] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:41:32] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:41:32] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:41:35] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:41:35] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:22] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:22] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:26] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:26] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:28] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:28] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:35] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:35] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:38] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:38] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:53:40] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:53:40] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:55:11] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:55:12] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:55:26] [32minfo[39m: [PUT] /api/notes/c7daaadb-87d0-44dd-a48f-e4fbdbd56efe
+[2025-09-22 18:55:26] [32minfo[39m: Updated note: c7daaadb-87d0-44dd-a48f-e4fbdbd56efe
+[2025-09-22 18:55:26] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:55:26] [32minfo[39m: Fetched 4 notes
+[2025-09-22 18:55:37] [32minfo[39m: [GET] /api/notes
+[2025-09-22 18:55:37] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:00:18] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:00:18] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:00:31] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:00:31] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:06:11] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:06:11] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:34:31] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:34:32] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:34:46] [32minfo[39m: [PUT] /api/notes/c7daaadb-87d0-44dd-a48f-e4fbdbd56efe
+[2025-09-22 19:34:46] [32minfo[39m: Updated note: c7daaadb-87d0-44dd-a48f-e4fbdbd56efe
+[2025-09-22 19:34:46] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:34:46] [32minfo[39m: Fetched 4 notes
+[2025-09-22 19:35:29] [32minfo[39m: [POST] /api/notes
+[2025-09-22 19:35:29] [32minfo[39m: Created note: 447658a9-1d25-49b1-a8d5-9b5987235798
+[2025-09-22 19:35:29] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:35:29] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:38:06] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:38:06] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:38:40] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:38:40] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:38:41] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:38:41] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:40:04] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:40:04] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:40:07] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:40:07] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:40:08] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:40:08] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:40:13] [32minfo[39m: [PUT] /api/notes/447658a9-1d25-49b1-a8d5-9b5987235798
+[2025-09-22 19:40:13] [32minfo[39m: Updated note: 447658a9-1d25-49b1-a8d5-9b5987235798
+[2025-09-22 19:40:13] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:40:13] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:40:23] [32minfo[39m: [PUT] /api/notes/447658a9-1d25-49b1-a8d5-9b5987235798
+[2025-09-22 19:40:23] [32minfo[39m: Updated note: 447658a9-1d25-49b1-a8d5-9b5987235798
+[2025-09-22 19:40:23] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:40:23] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:42:07] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:42:07] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:42:42] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:42:42] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:42:51] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:42:51] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:45:07] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:45:07] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:45:15] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:45:15] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:46:27] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:46:27] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:46:28] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:46:28] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:46:35] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:46:35] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:49:53] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:49:53] [32minfo[39m: Fetched 5 notes
+[2025-09-22 19:56:30] [32minfo[39m: [GET] /api/notes
+[2025-09-22 19:56:30] [32minfo[39m: Fetched 5 notes
+[2025-09-23 01:01:43] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:01:43] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:01:45] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:01:45] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:01:45] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:01:45] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:19] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:19] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:20] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:20] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:20] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:20] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:20] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:20] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:20] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:20] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:21] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:21] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+[2025-09-23 01:03:21] [32minfo[39m: [GET] /api/notes
+[2025-09-23 01:03:21] [31merror[39m: [GET] /api/notes - 
+Invalid `prisma.note.findMany()` invocation in
+/Users/yerkanatsultanov/JuniorPlus-Test-Task/backend/src/repository/repo.ts:10:24
+
+   7 
+   8 export const NotesRepo = {
+   9   async getAll(): Promise<Note[]> {
+→ 10     return prisma.note.findMany(
+Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
