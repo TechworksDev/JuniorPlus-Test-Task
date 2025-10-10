@@ -6,6 +6,7 @@ import {
   updateNote,
   deleteNote
 } from '../controllers/notesController'
+import { validateNote } from '../middlewares/validateNote'
 
 const router = Router()
 
@@ -16,10 +17,10 @@ router.get('/', getAllNotes)
 router.get('/:id', getNoteById)
 
 // POST /api/notes - create a new note
-router.post('/', createNote)
+router.post('/', validateNote, createNote)
 
 // PUT /api/notes/:id - update a note by ID
-router.put('/:id', updateNote)
+router.put('/:id', validateNote, updateNote)
 
 // DELETE /api/notes/:id - delete a note by ID
 router.delete('/:id', deleteNote)

@@ -78,14 +78,6 @@ export const createNote = async (
   try {
     const { title, content, marker = 'gray' } = req.body as CreateNoteDTO
 
-    if (!title || title.trim() === '') {
-      throw new AppError('Title is required', 400)
-    }
-
-    if (!content || content.trim() === '') {
-      throw new AppError('Content is required', 400)
-    }
-
     const result = await pool.query(
       `INSERT INTO notes (title, content, marker) 
        VALUES ($1, $2, $3) 

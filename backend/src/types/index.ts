@@ -1,4 +1,5 @@
-export type NoteColor = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'gray'
+export const NOTE_COLORS = ['red', 'blue', 'green', 'yellow', 'purple', 'gray'] as const;
+export type NoteColor = typeof NOTE_COLORS[number];
 
 export interface Note {
   id: number
@@ -15,12 +16,7 @@ export interface CreateNoteDTO {
   marker?: NoteColor
 }
 
-export interface UpdateNoteDTO {
-  title?: string
-  content?: string
-  marker?: NoteColor
-}
-
+export interface UpdateNoteDTO extends Partial<CreateNoteDTO> {}
 export interface ApiResponse<T> {
   success: boolean
   data?: T
