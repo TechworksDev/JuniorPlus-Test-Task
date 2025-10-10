@@ -20,6 +20,7 @@ declare module 'vue' {
     NoteForm: typeof import('./src/components/NoteForm.vue')['default']
     NotesSearch: typeof import('./src/components/NotesSearch.vue')['default']
     NotesSort: typeof import('./src/components/NotesSort.vue')['default']
+    Paginator: typeof import('primevue/paginator')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Textarea: typeof import('primevue/textarea')['default']

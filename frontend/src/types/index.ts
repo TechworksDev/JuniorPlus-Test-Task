@@ -36,3 +36,12 @@ export type SortOption = {
   sortBy: typeof SORT_BY[number]
   order: typeof SORT_ORDER[number]
 }
+
+export const colorClassMap: Record<NoteColor, string> = {
+  red: 'text-red-500',
+  blue: 'text-blue-500',
+  green: 'text-green-500',
+  yellow: 'text-yellow-500',
+  purple: 'text-purple-500',
+  gray: 'text-gray-500'
+};

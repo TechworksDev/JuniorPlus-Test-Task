@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Note } from '@/types';
+import { type Note, colorClassMap } from '@/types';
 import { toParagraph } from '@/utils/toParagraph';
 
 defineProps<{
@@ -18,8 +18,8 @@ defineEmits<{
 <template>
     <Card v-if="note" class="note-card">
         <template #title>
+            <i :class="`pi pi-bookmark-fill ${colorClassMap[note.marker]}`"/>
             {{ note.title }}
-            <i :class="`pi pi-bookmark-fill text-${note.marker}-600`" ar />
         </template>
         <template #subtitle>
             <small>Created at: {{ new Date(note.updated_at).toLocaleString() }}</small>
@@ -29,9 +29,9 @@ defineEmits<{
             <small v-if="note.created_at !== note.updated_at">Updated at: {{ new Date(note.created_at).toLocaleString() }}</small>
         </template>
         <template #footer>
-            <div>
-                <Button icon="pi pi-pencil" aria-label="Edit note" @click="$emit('edit', note.id)" />
-                <Button icon="pi pi-trash" severity="danger" aria-label="Delete note" @click="$emit('delete', note.id)" />
+            <div class="flex justify-content-end gap-2">
+                <Button icon="pi pi-pencil" variant="text" raised rounded aria-label="Edit note" @click="$emit('edit', note.id)" />
+                <Button icon="pi pi-trash" variant="text" raised rounded severity="danger" aria-label="Delete note" @click="$emit('delete', note.id)" />
             </div>
         </template>
     </Card>

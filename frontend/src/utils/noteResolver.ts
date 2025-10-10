@@ -7,15 +7,13 @@ const noteSchema = z.object({
         .check(
             z.trim(),
             z.minLength(1, 'Title is required.'),
-            z.minLength(3, 'Title must be at least 3 characters long.'),
-            z.maxLength(50, 'Title must be at most 50 characters long.')
+            z.maxLength(255, 'Title must be at most 255 characters long.')
         ),
     content: z
         .string()
         .check(
             z.trim(),
             z.minLength(1, 'Content is required.'),
-            z.minLength(5, 'Content must be at least 5 characters long.'),
             z.maxLength(500, 'Content must be at most 500 characters long.')
         ),
     marker: z.enum(NOTE_COLORS, {

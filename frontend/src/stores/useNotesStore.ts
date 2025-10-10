@@ -17,7 +17,11 @@ export const useNotesStore = defineStore("notes", () => {
   // State
   const notes = ref<Note[]>([]);
   const loading = ref<boolean>(false);
-  const error = ref<string | null>(null);
+
+  const formError = ref<string | null>(null);
+  const fetchError = ref<string | null>(null);
+  const deleteError = ref<string | null>(null);
+
   const searchQuery = ref<string>();
   const sortOption = reactive<SortOption>({
     sortBy: route.query['sortBy'] || "created_at",
@@ -30,7 +34,7 @@ export const useNotesStore = defineStore("notes", () => {
   // Actions(setters)
   const fetchNotes = async () => {
     loading.value = true;
-    error.value = null;
+    fetchError.value = null;
     try {
       const response = await notesService.getAll({
         search: searchQuery.value || undefined,
@@ -39,7 +43,7 @@ export const useNotesStore = defineStore("notes", () => {
 
       notes.value = response.data || [];
     } catch (err: any) {
-      error.value = err.response?.data?.message || "Failed to fetch notes";
+      fetchError.value = err.response?.data?.message || "Failed to fetch notes";
       throw err;
     } finally {
       loading.value = false;
@@ -48,7 +52,7 @@ export const useNotesStore = defineStore("notes", () => {
 
   const createNote = async (data: CreateNoteDTO) => {
     loading.value = true;
-    error.value = null;
+    formError.value = null;
     try {
       const response = await notesService.create(data);
       if (response.success) {
@@ -56,7 +60,7 @@ export const useNotesStore = defineStore("notes", () => {
       }
       return response.data;
     } catch (err: any) {
-      error.value = err.response?.data?.message || "Failed to create note";
+      formError.value = err.response?.data?.message || "Failed to create note";
       throw err;
     } finally {
       loading.value = false;
@@ -65,7 +69,7 @@ export const useNotesStore = defineStore("notes", () => {
 
   const updateNote = async ({id, ...data}: Note) => {
     loading.value = true;
-    error.value = null;
+    formError.value = null;
 
     try {
       const response = await notesService.update(id, data);
@@ -75,7 +79,7 @@ export const useNotesStore = defineStore("notes", () => {
       }
       return response.data;
     } catch (err: any) {
-      error.value = err.response?.data?.message || "Failed to update note";
+      formError.value = err.response?.data?.message || "Failed to update note";
       throw err;
     } finally {
       loading.value = false;
@@ -84,14 +88,14 @@ export const useNotesStore = defineStore("notes", () => {
 
   const deleteNote = async (id: number) => {
     loading.value = true;
-    error.value = null;
+    deleteError.value = null;
     try {
       const response = await notesService.delete(id);
       if (response.success) {
         fetchNotes();
       }
     } catch (err: any) {
-      error.value = err.response?.data?.message || "Failed to delete note";
+      deleteError.value = err.response?.data?.message || "Failed to delete note";
       throw err;
     } finally {
       loading.value = false;
@@ -134,7 +138,9 @@ export const useNotesStore = defineStore("notes", () => {
     // State
     notes,
     loading,
-    error,
+    formError,
+    fetchError,
+    deleteError,
     searchQuery,
     sortOption,
 

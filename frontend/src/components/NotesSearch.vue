@@ -17,7 +17,7 @@ const onInput = () => {
 <template>
     <IconField class="notes-search">
       <InputIcon class="pi pi-search" />
-      <InputText v-model="model" name="search" type="search" placeholder="Search by title or content..." aria-label="search"
+      <InputText class="w-full" v-model="model" name="search" type="search" placeholder="Search by title or content..." aria-label="search"
         @input="onInput" />
     </IconField>
 </template>
