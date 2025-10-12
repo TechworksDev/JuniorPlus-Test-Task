@@ -1,44 +1,84 @@
-# JuniorPlus-Test-Task
-Тестовое задание для Junior+ разработчика.
+<div align="center">
 
-## Задача
-Реализовать простую платформу для заметок (**Notes Platform**) с backend- и frontend-частью.
+# My Notes
 
-⏱ Срок исполнения: **1 день**
+Небольшое full‑stack приложение для заметок: REST API на Express + PostgreSQL и интерфейс на Vue 3 + PrimeVue + Tailwind CSS.
 
----
+</div>
 
-## Основные требования
+## Содержание
+- Общая информация
+- Быстрый старт
+- Структура проекта
+- Переменные окружения
+- Сервисы в Docker
+- Документация
 
-### 1. База данных
-- 1.1. Спроектировать модель данных самостоятельно.  
-- 1.2. Поднять базу **PostgreSQL** в Docker.  
-- 1.3. Приложить **скриншот модели БД**.  
+## Общая информация
+Приложение позволяет создавать, редактировать, удалять и просматривать заметки. Есть поиск, сортировка и фильтр по цвету маркера. На фронтенде используются PrimeVue компоненты и дизайн‑токены (Aura preset). Бэкенд предоставляет REST API и Swagger UI.
 
-### 2. Backend
-- 2.1. Использовать **TypeScript + Express**.  
-- 2.2. Реализовать API для работы с заметками (состав методов и сущностей определить самостоятельно).  
-- 2.3. Добавить middleware для логирования и обработки ошибок.  
-- 2.4. Сделать валидацию входных данных.  
-- 2.5. Подготовить документацию API в **Swagger**.  
+## Быстрый старт
 
-### 3. Frontend
-- 3.1. Использовать **Vue 3 (TypeScript)**.  
-- 3.2. Реализовать интерфейс для работы с заметками, подключив его к backend API.  
+1) Установите зависимости фронтенда и бэкенда:
+```bash
+cd backend && npm i
+cd ../frontend && npm i
+```
 
----
+2) Поднимите PostgreSQL через docker‑compose:
+```bash
+docker compose up -d postgres
+```
 
-## Будет плюсом
-- Написание миграций для создания таблиц в БД.  
-- Поднять сервисы в **docker-compose** (PostgreSQL + backend + frontend).  
-- Оформить проект с понятной структурой.  
+3) Запустите бэкенд (http://localhost:4000):
+```bash
+cd backend
+npm run dev
+```
 
----
+4) Запустите фронтенд (http://localhost:5173):
+```bash
+cd frontend
+npm run dev
+```
 
-## Как выполнить задание
+## Структура проекта
+```
+my-notes/
+  backend/           # Express + TS + PostgreSQL
+    src/
+      controllers/
+      routes/
+      middlewares/
+      config/
+      types/
+    migrations/
+    README.md
+  frontend/          # Vue 3 + TS + PrimeVue + Tailwind CSS
+    src/
+      components/
+      services/
+      stores/
+      types/
+    README.md
+  docker-compose.yml
+  README.md          # Этот файл
+```
 
-1. Сделайте **Fork** этого репозитория.  
-2. Выполните задание в своём форке.  
-3. По завершении работы:  
-   - Создайте **Pull Request** в этот репозиторий.  
-   - В описание PR приложите скриншот модели БД.  
+## Переменные окружения
+Пример для `backend/.env`:
+```
+PORT=4000
+DATABASE_URL=postgres://notesuser:notespass123@localhost:5432/notes_db
+NODE_ENV=development
+```
+
+Фронтенд читает `VITE_API_URL` (по умолчанию `http://localhost:4000`).
+
+## Сервисы в Docker
+В `docker-compose.yml` настроен сервис `postgres` с volume и инициализацией схемы из `backend/migrations`.
+
+## Документация
+- Swagger UI: `http://localhost:3000/api/docs`
+- Healthcheck: `http://localhost:4000/health`
+
