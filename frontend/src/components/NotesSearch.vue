@@ -2,14 +2,15 @@
 const model = defineModel<string>();
 
 const emit = defineEmits<{
-   (e: 'search-input'): void;
+   (e: 'search-input', v: string): void;
 }>();
 
 let _debounce: ReturnType<typeof setTimeout> | null = null;
-const onInput = () => {
+const onInput = (evt: InputEvent) => {
   if (_debounce) clearTimeout(_debounce);
+  const target = evt.target as HTMLInputElement;
   _debounce = setTimeout(() => {
-    emit('search-input');
+    emit('search-input', target.value);
   }, 500);
 };
 </script>

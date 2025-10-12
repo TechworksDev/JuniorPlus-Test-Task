@@ -53,10 +53,10 @@ function handleReset() {
                 <label class="content-center" for="marker">Select color</label>
                 <Select id="marker" name="marker" :options="colorOptions" optionLabel="label" optionValue="value">
                     <template #value="slotProps">
-                        <i :class="`pi pi-bookmark-fill ${colorClassMap[slotProps.value]}`"></i>
+                        <i :class="`pi pi-bookmark-fill ${colorClassMap[slotProps.value as NoteColor]}`"></i>
                     </template>
                     <template #option="slotProps">
-                        <i :class="`pi pi-bookmark-fill ${colorClassMap[slotProps.option.value]}`"></i>
+                        <i :class="`pi pi-bookmark-fill ${colorClassMap[slotProps.option.value as NoteColor]}`"></i>
                     </template>
                 </Select>
                 <Message v-if="$form.marker?.invalid" severity="error" size="small" variant="simple">

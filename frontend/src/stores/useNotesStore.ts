@@ -24,8 +24,8 @@ export const useNotesStore = defineStore("notes", () => {
 
   const searchQuery = ref<string>();
   const sortOption = reactive<SortOption>({
-    sortBy: route.query['sortBy'] || "created_at",
-    order: route.query['order'] || "DESC",
+    sortBy: SORT_BY.includes(route.query['sortBy'] as typeof SORT_BY[number]) ? route.query['sortBy'] as typeof SORT_BY[number] : "created_at",
+    order: SORT_ORDER.includes(route.query['order'] as typeof SORT_ORDER[number]) ? route.query['order'] as typeof SORT_ORDER[number] : "DESC",
   });
 
   // Computed(getters)

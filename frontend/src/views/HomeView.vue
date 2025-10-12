@@ -5,7 +5,7 @@ import type { CreateNoteDTO, Note, UpdateNoteDTO } from "@/types";
 import { useNotesStore } from "@/stores/useNotesStore";
 import { resolver } from "@/utils/noteResolver";
 
-import { ConfirmDialog, useConfirm, useToast } from "primevue";
+import { Toast, ConfirmDialog, useConfirm, useToast } from "primevue";
 
 const store = useNotesStore();
 const editNoteId = ref<Note["id"] | null>(null);
