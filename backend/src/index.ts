@@ -5,6 +5,7 @@ import { testConnection } from './config/database'
 import { requestLogger } from './middlewares/logger'
 import { errorHandler, notFound } from './middlewares/errorHandler'
 import notesRoutes from './routes/notesRoutes'
+import { setupSwagger } from './swagger';
 
 dotenv.config()
 
@@ -20,6 +21,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(requestLogger)
+
+// Swagger setup
+setupSwagger(app);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -72,3 +76,5 @@ process.on('SIGINT', () => {
   console.log('SIGINT signal received: closing server')
   process.exit(0)
 })
+
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
