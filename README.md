@@ -1,44 +1,512 @@
-# JuniorPlus-Test-Task
-Тестовое задание для Junior+ разработчика.
+# 📝 Notes Platform by NIMARS v 0.2.1
 
-## Задача
-Реализовать простую платформу для заметок (**Notes Platform**) с backend- и frontend-частью.
+Простое full-stack приложение для работы с заметками (todo): создание, просмотр, редактирование, отметка выполнения и удаление.  
+Каждый пользователь видит только свои заметки после авторизации.
 
-⏱ Срок исполнения: **1 день**
-
----
-
-## Основные требования
-
-### 1. База данных
-- 1.1. Спроектировать модель данных самостоятельно.  
-- 1.2. Поднять базу **PostgreSQL** в Docker.  
-- 1.3. Приложить **скриншот модели БД**.  
-
-### 2. Backend
-- 2.1. Использовать **TypeScript + Express**.  
-- 2.2. Реализовать API для работы с заметками (состав методов и сущностей определить самостоятельно).  
-- 2.3. Добавить middleware для логирования и обработки ошибок.  
-- 2.4. Сделать валидацию входных данных.  
-- 2.5. Подготовить документацию API в **Swagger**.  
-
-### 3. Frontend
-- 3.1. Использовать **Vue 3 (TypeScript)**.  
-- 3.2. Реализовать интерфейс для работы с заметками, подключив его к backend API.  
+Проект сделан как тестовое задание.
 
 ---
 
-## Будет плюсом
-- Написание миграций для создания таблиц в БД.  
-- Поднять сервисы в **docker-compose** (PostgreSQL + backend + frontend).  
-- Оформить проект с понятной структурой.  
+## 📚 Оглавление
+
+- [🚀 Быстрый старт (Docker)](#-быстрый-старт-docker)
+- [📦 Стек](#-стек)
+- [✨ Функциональность](#-функциональность)
+  - [Backend](#backend-функции)
+  - [Frontend](#frontend-функции)
+- [🧱 Сущности](#-сущности)
+- [🏗 Структура проекта](#-структура-проекта)
+- [🐳 Архитектура контейнеров](#-архитектура-контейнеров)
+- [⚙️ Локальный запуск без Docker (опционально)](#️-локальный-запуск-без-docker-опционально)
+- [🧩 API обзор](#-api-обзор)
+- [🛡 Валидация и обработка ошибок](#-валидация-и-обработка-ошибок)
+- [🧬 Архитектура backend](#-архитектура-backend)
+- [🎨 Архитектура frontend](#-архитектура-frontend)
 
 ---
 
-## Как выполнить задание
+## 🚀 Быстрый старт (Docker)
 
-1. Сделайте **Fork** этого репозитория.  
-2. Выполните задание в своём форке.  
-3. По завершении работы:  
-   - Создайте **Pull Request** в этот репозиторий.  
-   - В описание PR приложите скриншот модели БД.  
+### 🔧 Требования
+
+- Docker
+- Docker Compose (плагин `docker compose`)
+
+### 🐳 Запуск всего стека
+
+Клонировать репозиторий:
+
+```bash
+git clone https://github.com/<your-username>/Notes-Platform-by-NIMARS.git
+cd Notes-Platform-by-NIMARS
+````
+
+Собрать и запустить контейнеры:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Это поднимет три сервиса:
+
+- `db` — PostgreSQL
+- `backend` — API + миграции Prisma
+- `frontend` — сборка Vue + nginx
+
+> Миграции применяются автоматически при старте backend (`prisma migrate deploy`).
+
+### 🌱 Сидинг данных (опционально)
+
+Если сид настроен в проекте, один раз выполнить:
+
+```bash
+docker compose exec backend npx prisma db seed
+```
+
+После этого в БД появится тестовый пользователь и несколько заметок, например:
+
+- email: `test@example.com`
+- пароль: `password123`
+
+### 🌐 Доступ к сервисам
+
+- Frontend: [http://localhost:8080](http://localhost:8080)
+- API: [http://localhost:3000/api](http://localhost:3000/api)
+- Swagger UI: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+> Если сервисы запускаются на удалённой VM, вместо `localhost` используйте IP адрес VM.
+
+---
+
+## 📦 Стек
+
+### 🖥 Backend
+
+- Node.js, TypeScript
+- Express
+- Prisma + PostgreSQL
+- Zod (валидация входных данных)
+- Swagger UI (документация API)
+- JWT (аутентификация)
+- bcrypt (хэширование паролей)
+
+### 💻 Frontend
+
+- Vue 3 + TypeScript
+- Vite
+- Axios
+
+---
+
+## ✨ Функциональность
+
+### Backend функции
+
+- **👤 Пользователи**
+
+  - Регистрация нового пользователя
+  - Авторизация по email + пароль
+  - Выдача JWT-токена
+  - Получение текущего пользователя по токену (`/auth/me`)
+  - Пароли хранятся в виде bcrypt-хэшей
+
+- **📝 Заметки (Note)**
+
+  - CRUD API для сущности Note
+  - Каждая заметка привязана к пользователю (по `userId`)
+  - Все эндпоинты `/api/notes` доступны только при наличии валидного JWT
+  - Пользователь видит и изменяет только свои заметки
+
+- **⚙️ Техническое**
+
+  - Валидация запросов через Zod (body / params)
+  - Middleware для логирования запросов
+  - Глобальный обработчик ошибок
+  - Документация API в Swagger UI
+  - Миграции и сидинг базы данных через Prisma
+
+### Frontend функции
+
+- **🔐 Авторизация**
+
+  - Форма входа/регистрации (переключатель режимов)
+  - Сохранение JWT-токена в `localStorage`
+  - Автоматическая подстановка `Authorization: Bearer ...` в запросы
+  - Восстановление сессии при перезагрузке страницы через `/auth/me`
+  - Выход из системы с очисткой токена и состояния
+
+- **📝 Работа с заметками**
+
+  - Форма создания и редактирования заметки
+  - Список заметок с возможностью:
+
+    - пометить заметку выполненной
+    - отредактировать
+    - удалить (через кастомное модальное окно)
+  - Сортировка списка:
+
+    - по дате создания (новые сверху / старые сверху)
+    - по заголовку (A–Z / Z–A)
+  - Поиск по заголовку и содержанию
+  - Фильтрация по статусу:
+
+    - все
+    - только активные
+    - только выполненные
+  - Пагинация:
+
+    - выбор размера страницы (5 / 10 / 20)
+    - переключение страниц
+    - отображение диапазона записей (например, «Показаны 1–5 из 17»)
+
+- **🎛 Интерфейс**
+
+  - Переключение светлой/тёмной темы (с сохранением в `localStorage`)
+  - Адаптивная верстка под смартфоны и различные размеры окна браузера
+  - Кастомное модальное окно подтверждения удаления вместо `window.confirm`
+
+---
+
+## 🧱 Сущности
+
+### 👤 User
+
+Модель пользователя в базе данных (упрощённо):
+
+- `id: Int` — первичный ключ, автоинкремент
+- `email: String` — уникальный email
+- `name: String?` — имя (необязательно)
+- `passwordHash: String` — хэш пароля (bcrypt)
+- `createdAt: DateTime` — дата создания
+- `updatedAt: DateTime` — дата обновления
+
+### 📝 Note
+
+Модель заметки:
+
+- `id: Int` — первичный ключ, автоинкремент
+- `title: String` — обязательное поле, максимум 255 символов
+- `content: String` — текст заметки
+- `isDone: Boolean` — флаг выполнения, по умолчанию `false`
+- `createdAt: DateTime` — дата создания
+- `updatedAt: DateTime` — дата обновления
+- `userId: Int` — ссылка на пользователя
+- `user: User` — связь с моделью пользователя (в Prisma)
+
+---
+
+## 🏗 Структура проекта
+
+```text
+.
+├── backend
+│   ├── prisma
+│   │   ├── schema.prisma
+│   │   ├── seed.ts
+│   │   └── migrations
+│   └── src
+│       ├── app.ts
+│       ├── server.ts
+│       ├── config
+│       │   ├── env.ts
+│       │   └── prisma.ts
+│       ├── controllers
+│       │   ├── auth.controller.ts
+│       │   └── note.controller.ts
+│       ├── docs
+│       │   └── swagger.ts
+│       ├── middlewares
+│       │   ├── auth.ts
+│       │   ├── errorHandler.ts
+│       │   ├── logger.ts
+│       │   └── validate.ts
+│       ├── routes
+│       │   ├── auth.routes.ts
+│       │   └── note.routes.ts
+│       ├── schemas
+│       │   ├── auth.schema.ts
+│       │   └── note.schema.ts
+│       └── services
+│           └── note.service.ts
+└── frontend
+    ├── src
+    │   ├── api
+    │   │   ├── client.ts
+    │   │   ├── auth.ts
+    │   │   └── notes.ts
+    │   ├── components
+    │   │   ├── AuthForm.vue
+    │   │   ├── ConfirmDialog.vue
+    │   │   ├── NoteForm.vue
+    │   │   └── NoteList.vue
+    │   ├── types
+    │   │   └── note.ts
+    │   ├── App.vue
+    │   ├── main.ts
+    │   └── style.css
+    └── vite.config.ts
+```
+
+---
+
+## 🐳 Архитектура контейнеров
+
+Проект разворачивается в трёх контейнерах (через `docker compose`):
+
+- **`db`**
+
+  - Образ: `postgres:16-alpine`
+  - Порт: `5432:5432`
+  - Переменные окружения:
+
+    - `POSTGRES_USER=notefstest`
+    - `POSTGRES_PASSWORD=password123`
+    - `POSTGRES_DB=notefsdb`
+  - Volume: `notes_pgdata` для персистентного хранения данных
+
+- **`backend`**
+
+  - Образ: собирается из `backend/Dockerfile`
+  - Порт: `3000:3000`
+  - Переменные:
+
+    - `DATABASE_URL=postgresql://notefstest:password123@db:5432/notefsdb?schema=public`
+    - `PORT=3000`
+    - `JWT_SECRET=super_secret_key_change_me`
+  - При старте:
+
+    - применяет миграции (`prisma migrate deploy`)
+    - запускает сервер `node dist/server.js`
+
+- **`frontend`**
+
+  - Образ: собирается из `frontend/Dockerfile` (Vite build + nginx)
+  - Порт: `8080:80`
+  - Использует `VITE_API_URL` (при сборке), чтобы обращаться к API:
+
+    - `VITE_API_URL="http://localhost:3000/api"`
+
+---
+
+## ⚙️ Локальный запуск без Docker (опционально)
+
+Если нужно поднять проект без Docker (например, в процессе разработки):
+
+### 🔧  Требования
+
+- Node.js 20+
+- npm или pnpm
+- PostgreSQL
+
+### 🗄 Настройка базы данных
+
+Создать пользователя и базу данных, например:
+
+- пользователь: `notefstest`
+- база: `notefsdb`
+
+```sql
+CREATE USER notefstest WITH PASSWORD 'your_password';
+CREATE DATABASE notefsdb OWNER notefstest;
+```
+
+### 🖥 Backend (локально)
+
+```bash
+cd backend
+npm install
+```
+
+Создать `.env`:
+
+```env
+DATABASE_URL="postgresql://notefstest:your_password@localhost:5432/notefsdb?schema=public"
+PORT=3000
+JWT_SECRET="super_secret_key_change_me"
+```
+
+Миграции и сид:
+
+```bash
+npx prisma migrate dev --name init_notes_and_users
+npx prisma db seed   # или npm run seed, если настроен скрипт
+```
+
+Запуск dev-сервера:
+
+```bash
+npm run dev
+```
+
+- API: [http://localhost:3000](http://localhost:3000)
+- Swagger: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+### 💻 Frontend (локально)
+
+```bash
+cd frontend
+npm install
+```
+
+`.env` (опционально):
+
+```env
+VITE_API_URL="http://localhost:3000/api"
+```
+
+Запуск dev-сервера:
+
+```bash
+npm run dev
+```
+
+- Frontend: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🧩 API обзор
+
+Базовый URL API:
+
+- `http://localhost:3000/api`
+
+### 🔐 Auth
+
+- `POST /auth/register` — регистрация нового пользователя.
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password123",
+    "name": "User Name"
+  }
+  ```
+
+  Успешный ответ:
+
+  ```json
+  {
+    "token": "jwt-token",
+    "user": {
+      "id": 1,
+      "email": "user@example.com",
+      "name": "User Name"
+    }
+  }
+  ```
+
+- `POST /auth/login` — авторизация.
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password123"
+  }
+  ```
+
+- `GET /auth/me` — текущий пользователь.
+
+  Заголовок:
+
+  ```http
+  Authorization: Bearer <jwt-token>
+  ```
+
+### 📝 Notes
+
+Все эндпоинты `/notes` требуют авторизации (`Authorization: Bearer ...`).
+
+- `GET /notes` — список заметок текущего пользователя.
+
+- `GET /notes/:id` — заметка по id (если принадлежит текущему пользователю).
+
+- `POST /notes` — создать заметку.
+
+  ```json
+  {
+    "title": "Идеи для нового проекта",
+    "content": "Мини-приложение заметок, простой CRUD, Vue + Node.",
+    "isDone": false
+  }
+  ```
+
+- `PATCH /notes/:id` — частичное обновление заметки.
+
+- `DELETE /notes/:id` — удаление заметки.
+
+Документация OpenAPI:
+
+- `GET /api-docs` — Swagger UI.
+
+---
+
+## 🛡 Валидация и обработка ошибок
+
+- Все входные данные валидируются через Zod.
+
+- Для тела и параметров маршрута есть отдельные схемы (`auth.schema.ts`, `note.schema.ts`).
+
+- Ошибка валидации → `400 Bad Request`:
+
+  ```json
+  {
+    "message": "Validation error",
+    "details": [
+      {
+        "path": "title",
+        "message": "title is required"
+      }
+    ]
+  }
+  ```
+
+- Ошибки авторизации:
+
+  - `401 Unauthorized` — отсутствует или некорректный токен.
+
+- Конфликты:
+
+  - `409 Conflict` — при попытке зарегистрировать уже существующий email.
+
+- Неверные креды:
+
+  - `401 Unauthorized` — `"Invalid email or password"`.
+
+- Глобальный обработчик ошибок обрабатывает ошибки Prisma и возвращает `404`, если запись не найдена.
+
+---
+
+## 🧬 Архитектура backend
+
+- `controllers` — HTTP-обработчики (auth и notes), не зависят от реализации хранилища.
+- `services` — работа с БД через Prisma (`note.service.ts` и т.п.).
+- `schemas` — Zod-схемы для body/params.
+- `middlewares`:
+
+  - `logger` — логирование запросов и времени ответа.
+  - `validate` — валидация входных данных.
+  - `auth` — проверка JWT-токена и добавление `user` в `req`.
+  - `errorHandler` — единая обработка ошибок.
+- `docs/swagger.ts` — описание OpenAPI для Swagger UI.
+
+---
+
+## 🎨 Архитектура frontend
+
+- `types/note.ts` — `Note`, `CreateNoteDto`, `UpdateNoteDto`.
+- `api/client.ts` — общий экземпляр Axios и `setAuthToken`.
+- `api/auth.ts` — `registerUser`, `loginUser`, `getCurrentUser`.
+- `api/notes.ts` — `fetchNotes`, `fetchNote`, `createNote`, `updateNote`, `deleteNote`.
+- `components/AuthForm.vue` — форма входа/регистрации.
+- `components/NoteForm.vue` — форма создания/редактирования заметки.
+- `components/NoteList.vue` — список заметок (toggle `isDone`, редактирование, удаление).
+- `components/ConfirmDialog.vue` — модальное окно подтверждения удаления с отображением заголовка заметки.
+- `App.vue` — корневой контейнер:
+
+  - управление темой (light/dark)
+  - управление авторизацией (token, currentUser)
+  - загрузка заметок
+  - сортировка, поиск, фильтрация по статусу, пагинация
+  - логика подтверждения удаления.
+- `style.css` — общие стили и CSS-переменные для тем + адаптивность.

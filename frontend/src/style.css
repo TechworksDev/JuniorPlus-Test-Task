@@ -1,0 +1,65 @@
+:root {
+  --bg-color: #0b0b0b;
+  --bg-elevated: #111111;
+  --border-color: #333333;
+  --text-color: #f0f0f0;
+  --text-muted: #aaaaaa;
+  --input-bg: #222222;
+  --input-border: #444444;
+  --error-bg: #3b0a0a;
+  --error-border: #ff4a4a;
+  --accent-color: #3b82f6;
+  --accent-color-soft: rgba(59, 130, 246, 0.15);
+}
+
+:root[data-theme="light"] {
+  --bg-color: #f5f5f5;
+  --bg-elevated: #ffffff;
+  --border-color: #dddddd;
+  --text-color: #111111;
+  --text-muted: #666666;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --error-bg: #ffecec;
+  --error-border: #ff4a4a;
+  --accent-color: #2563eb;
+  --accent-color-soft: rgba(37, 99, 235, 0.12);
+}
+
+:root[data-theme="dark"] {
+  --bg-color: #0b0b0b;
+  --bg-elevated: #111111;
+  --border-color: #333333;
+  --text-color: #f0f0f0;
+  --text-muted: #aaaaaa;
+  --input-bg: #222222;
+  --input-border: #444444;
+  --error-bg: #3b0a0a;
+  --error-border: #ff4a4a;
+  --accent-color: #3b82f6;
+  --accent-color-soft: rgba(59, 130, 246, 0.15);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
