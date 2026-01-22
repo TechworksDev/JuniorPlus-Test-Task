@@ -1,0 +1,25 @@
+export interface Note {
+  id: number;
+  title: string;
+  content: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface CreateNoteRequest {
+  title: string;
+  content: string;
+}
+
+export interface UpdateNoteRequest {
+  title?: string;
+  content?: string;
+}
+
+export interface NoteResponse {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
