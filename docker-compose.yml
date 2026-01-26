@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: notes_postgres
+    environment:
+      POSTGRES_DB: notes_db
+      POSTGRES_USER: notes_user
+      POSTGRES_PASSWORD: notes_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - notes_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+    container_name: notes_backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: notes_db
+      DB_USER: notes_user
+      DB_PASSWORD: notes_password
+      PORT: 3000
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - notes_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: notes_frontend
+    ports:
+      - "3001:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - notes_network
+
+volumes:
+  postgres_data:
+
+networks:
+  notes_network:
+    driver: bridge
