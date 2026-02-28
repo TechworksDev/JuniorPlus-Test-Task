@@ -1,0 +1,74 @@
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: notes-database
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-notes_db}
+      POSTGRES_USER: ${POSTGRES_USER:-notes_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-notes_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    networks:
+      - notes-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-notes_user} -d ${POSTGRES_DB:-notes_db}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: notes-backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://notes_user:notes_password@database:5432/notes_db}
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-3000}
+    ports:
+      - "${BACKEND_PORT:-3000}:${PORT:-3000}"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - notes-network
+    command: npm run dev
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: notes-frontend
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:3000/api}
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - notes-network
+    command: npm run dev -- --host
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  notes-network:
+    driver: bridge
